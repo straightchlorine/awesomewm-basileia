@@ -21,19 +21,15 @@ awful.keyboard.append_global_keybindings({
 	awful.key({ mod, ctrl, shift }, 'r',
     awesome.restart,
   { description = 'restart', group = 'general' }),
-
 	awful.key({ mod, ctrl, shift }, 'q',
     awesome.quit,
   { description = 'quit', group = 'general' }),
-
 	awful.key({ mod }, 'F1',
     hotkeys_popup.show_help,
   { description = 'this message', group = 'general' }),
-
 	awful.key({ mod }, enter, function()
 		awful.spawn(defaults.emulator)
 	end, { descrpion = 'terminal', group = 'key' }),
-
 	awful.key({ mod }, 'r', function()
 		awful.spawn.with_shell(defaults.launcher)
 	end, { desciption = 'application launcher', group = 'key' }),
@@ -89,6 +85,7 @@ awful.keyboard.append_global_keybindings({
 	awful.key({ mod, ctrl }, 'l', function(c)
 		utility.resize(client.focus, 'right')
 	end, { description = 'resize right', group = 'size' }),
+
   -- arrows
 	awful.key({ mod, ctrl }, 'Up', function(c)
 		utility.resize(client.focus, 'up')
@@ -106,35 +103,52 @@ awful.keyboard.append_global_keybindings({
 
 -- hardware
 awful.keyboard.append_global_keybindings({
-	awful.key({}, "XF86MonBrightnessUp", function()
-		awful.spawn("brightnessctl set 5%+ -q", false)
-	end, { description = "brightness up", group = "hardware/brightness" }),
+	awful.key({}, 'XF86MonBrightnessUp', function()
+		awful.spawn('brightnessctl set 5%+ -q', false)
+	end, { description = 'brightness up', group = 'hardware' }),
+	awful.key({}, 'XF86MonBrightnessDown', function()
+		awful.spawn('brightnessctl set 5%- -q', false)
+	end, { description = 'brightness down', group = 'hardware' }),
+	awful.key({}, 'XF86AudioRaiseVolume', function()
+		awful.spawn('amixer sset Master 5%+', false)
+	end, { description = 'volume up', group = 'hardware' }),
+	awful.key({}, 'XF86AudioLowerVolume', function()
+		awful.spawn('amixer sset Master 5%-', false)
+	end, { description = 'volume down', group = 'hardware' }),
+	awful.key({}, 'XF86AudioMute', function()
+		awful.spawn('amixer sset Master toggle', false)
+	end, { description = 'volume mute', group = 'hardware' }),
 
-	awful.key({}, "XF86MonBrightnessDown", function()
-		awful.spawn("brightnessctl set 5%- -q", false)
-	end, { description = "brightness down", group = "hardware/brightness" }),
-
-	awful.key({}, "XF86AudioRaiseVolume", function()
-		awful.spawn("amixer sset Master 5%+", false)
-	end, { description = "volume up", group = "hardware/volume" }),
-	awful.key({}, "XF86AudioLowerVolume", function()
-		awful.spawn("amixer sset Master 5%-", false)
-	end, { description = "volume down", group = "hardware/volume" }),
-
-	awful.key({}, "XF86AudioMute", function()
-		awful.spawn("amixer sset Master toggle", false)
-	end, { description = "volume mute", group = "hardware/volume" }),
-
-  -- update without use of bling
-	--awful.key({}, "XF86AudioPlay", function()
+  -- update
+	--awful.key({}, 'XF86AudioPlay', function()
 	--	playerctl_daemon:play_pause()
-	--end, { description = "play/pause music", group = "music/play_pause" }),
-
-	--awful.key({}, "XF86AudioPrev", function()
+	--end, { description = 'play/pause music', group = 'music' }),
+	--awful.key({}, 'XF86AudioPrev', function()
 	--	playerctl_daemon:previous()
-	--end, { description = "previous music", group = "music/previous" }),
-
-	--awful.key({}, "XF86AudioNext", function()
+	--end, { description = 'previous music', group = 'music' }),
+	--awful.key({}, 'XF86AudioNext', function()
 	--	playerctl_daemon:next()
-	--end, { description = "next music", group = "music/next" }),
+	--end, { description = 'next music', group = 'music' }),
 })
+
+-- layout
+awful.keyboard.append_global_keybindings({
+	awful.key({ mod, shift }, 's', function()
+    local layout_function = awful.layout.get(mouse.screen)
+    local layout_name = awful.layout.getname(layout_function)
+
+    if layout_name ~= 'floating' then
+      awful.layout.set(awful.layout.suit.floating)
+    else
+      awful.layout.set(awful.layout.suit.fair)
+    end
+	end, { description = 'toggle floating', group = 'layout' }),
+  awful.key({ mod }, 'space', function ()
+    awful.layout.inc(1)
+  end, { description = 'select next', group = 'layout' }),
+  awful.key({ mod, shift }, 'space', function ()
+    awful.layout.inc(-1)
+  end, { description = 'select previous', group = 'layout' }),
+})
+
+
