@@ -1,7 +1,6 @@
 --- binds.lua
 
 local awful = require('awful')
-local gears = require('gears')
 
 --- keybindings popup
 local hotkeys_popup = require('awful.hotkeys_popup')
