@@ -126,6 +126,11 @@ client.connect_signal("request::default_mousebindings", function()
 	})
 end)
 
+-- sloppy focus
+client.connect_signal("mouse::enter", function(c)
+  c:emit_signal("request::activate", "mouse_enter", { raise = false })
+end)
+
 -- hardware
 awful.keyboard.append_global_keybindings({
 	awful.key({}, 'XF86MonBrightnessUp', function()
