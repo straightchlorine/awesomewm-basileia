@@ -146,13 +146,13 @@ awful.keyboard.append_global_keybindings({
 
   -- update
 	--awful.key({}, 'XF86AudioPlay', function()
-	--	playerctl_daemon:play_pause()
+	--  playerctl_daemon:play_pause()
 	--end, { description = 'play/pause music', group = 'music' }),
 	--awful.key({}, 'XF86AudioPrev', function()
-	--	playerctl_daemon:previous()
+	--  playerctl_daemon:previous()
 	--end, { description = 'previous music', group = 'music' }),
 	--awful.key({}, 'XF86AudioNext', function()
-	--	playerctl_daemon:next()
+	--  playerctl_daemon:next()
 	--end, { description = 'next music', group = 'music' }),
 })
 
@@ -180,9 +180,9 @@ awful.keyboard.append_global_keybindings({
 awful.keyboard.append_global_keybindings({
 	awful.key({
 		modifiers = { mod },
-		keygroup = "numrow",
-		description = "toggle last tag",
-		group = "tag",
+		keygroup = 'numrow',
+		description = 'toggle last tag',
+		group = 'tag',
 		on_press = function(index)
       local screen = awful.screen.focused()
       local tag = screen.tags[index]
@@ -198,9 +198,9 @@ awful.keyboard.append_global_keybindings({
 	}),
 	awful.key({
 		modifiers = { mod, shift },
-		keygroup = "numrow",
-		description = "move client to tag",
-		group = "tag",
+		keygroup = 'numrow',
+		description = 'move client to tag',
+		group = 'tag',
 		on_press = function(index)
 			if client.focus then
 				local tag = client.focus.screen.tags[index]
@@ -212,4 +212,72 @@ awful.keyboard.append_global_keybindings({
 	}),
 })
 
+-- client
+client.connect_signal('request::default_keybindings', function()
+  awful.keyboard.append_global_keybindings({
+    -- swapping (vim)
+    awful.key({ mod, shift }, 'k', function(c)
+      awful.client.swap.bydirection('up', c, nil)
+    end),
+    awful.key({ mod, shift }, 'j', function(c)
+      awful.client.swap.bydirection('down', c, nil)
+    end),
+    awful.key({ mod, shift }, 'h', function(c)
+      awful.client.swap.bydirection('left', c, nil)
+    end),
+    awful.key({ mod, shift }, 'l', function(c)
+      awful.client.swap.bydirection('right', c, nil)
+    end),
 
+    -- swapping (arrows)
+    awful.key({ mod, shift }, 'Up', function(c)
+      awful.client.swap.bydirection('up', c, nil)
+    end),
+    awful.key({ mod, shift }, 'Down', function(c)
+      awful.client.swap.bydirection('down', c, nil)
+    end),
+    awful.key({ mod, shift }, 'Left', function(c)
+      awful.client.swap.bydirection('left', c, nil)
+    end),
+    awful.key({ mod, shift }, 'Right', function(c)
+      awful.client.swap.bydirection('right', c, nil)
+    end),
+
+    -- toggle floating
+    awful.key({ mod, ctrl }, 'space',
+      awful.client.floating.toggle
+    ),
+
+    -- toggle fullscreen
+    awful.key({ mod }, 'f', function()
+      client.focus.fullscreen = not client.focus.fullscreen
+      client.focus:raise()
+    end),
+
+    awful.key({ mod }, 'n', function()
+      client.focus.minimized = true
+    end, { description = 'minimize', group = 'client' }),
+
+    awful.key({ mod, ctrl }, 'n', function()
+      local c = awful.client.restore()
+      if c then
+        c:activate({ raise = true, context = 'key.unminimize' })
+      end
+    end, { description = 'unminimize', group = 'client' }),
+
+    -- on top
+    awful.key({ mod }, 'p', function()
+      client.focus.ontop = not client.focus.ontop
+    end),
+
+    -- close window
+    awful.key({ mod }, 'q', function()
+      client.focus:kill()
+    end),
+
+    -- center window
+    awful.key({ mod }, 'c', function()
+      awful.placement.centered(client.focus, { honor_workarea = true, honor_padding = true })
+    end),
+  })
+end)
