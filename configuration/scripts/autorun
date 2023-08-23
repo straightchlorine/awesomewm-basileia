@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# setting the keyboard map
+setxkbmap pl
+
+# run unless there is already an instance
+run () {
+    if ! pgrep -f "$1" ;
+    then
+        "$@"&
+    fi
+}
+
+# compositor
+run 'picom -b'
+
+# wallpaper
+$HOME/.fehbg
+
+# add logic for eww widgets once it's time
