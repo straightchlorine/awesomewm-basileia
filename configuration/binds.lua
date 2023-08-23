@@ -37,6 +37,16 @@ awful.keyboard.append_global_keybindings({
   -- eww bars from horizontal to vertical (vice versa)
 })
 
+-- multihead
+awful.keyboard.append_global_keybindings({
+  awful.key({ mod, alt }, "l", function ()
+    awful.screen.focus_relative(1)
+  end, { description = "focus the next screen", group = "display" }),
+  awful.key({ mod, alt }, "h", function ()
+    awful.screen.focus_relative(-1)
+  end, { description = "focus the previous screen", group = "display" })
+})
+
 -- focus by direction
 awful.keyboard.append_global_keybindings({
   -- vim
@@ -186,5 +196,3 @@ awful.keyboard.append_global_keybindings({
 		end,
 	}),
 })
-
-
