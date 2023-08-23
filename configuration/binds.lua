@@ -71,7 +71,7 @@ awful.keyboard.append_global_keybindings({
 		awful.client.focus.bydirection('down')
 	end, { description = 'focus down', group = 'focus' }),
 	awful.key({ mod }, 'Left', function()
-		awful.client.focus.bydirection('left')
+	  awful.client.focus.bydirection('left')
 	end, { description = 'focus left', group = 'focus' }),
 	awful.key({ mod }, 'Right', function()
 		awful.client.focus.bydirection('right')
@@ -110,6 +110,21 @@ awful.keyboard.append_global_keybindings({
 		utility.resize(client.focus, 'right')
 	end, { description = 'resize right', group = 'size' }),
 })
+
+-- mouse
+client.connect_signal("request::default_mousebindings", function()
+	awful.mouse.append_client_mousebindings({
+		awful.button({}, 1, function(c)
+			c:activate({ context = "mouse_click" })
+		end),
+		awful.button({ mod }, 1, function(c)
+			c:activate({ context = "mouse_click", action = "mouse_move"})
+		end),
+		awful.button({ mod }, 3, function(c)
+			c:activate({ context = "mouse_click", action = "mouse_resize"})
+		end),
+	})
+end)
 
 -- hardware
 awful.keyboard.append_global_keybindings({
@@ -196,3 +211,5 @@ awful.keyboard.append_global_keybindings({
 		end,
 	}),
 })
+
+
