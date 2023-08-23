@@ -151,4 +151,40 @@ awful.keyboard.append_global_keybindings({
   end, { description = 'select previous', group = 'layout' }),
 })
 
+-- tag
+awful.keyboard.append_global_keybindings({
+	awful.key({
+		modifiers = { mod },
+		keygroup = "numrow",
+		description = "toggle last tag",
+		group = "tag",
+		on_press = function(index)
+      local screen = awful.screen.focused()
+      local tag = screen.tags[index]
+
+      if tag then
+        if tag == screen.selected_tag then
+          awful.tag.history.restore()
+        else
+          tag:view_only()
+        end
+      end
+    end,
+	}),
+	awful.key({
+		modifiers = { mod, shift },
+		keygroup = "numrow",
+		description = "move client to tag",
+		group = "tag",
+		on_press = function(index)
+			if client.focus then
+				local tag = client.focus.screen.tags[index]
+				if tag then
+					client.focus:move_to_tag(tag)
+				end
+			end
+		end,
+	}),
+})
+
 
