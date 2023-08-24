@@ -4,6 +4,7 @@
 ---
 
 local log = require('utility.logging')
+require('utility.paths')
 
 --- Logs active tag into file.
 -- File is located in $HOME/.cache/awesomewm/<x>-active-tag
@@ -11,9 +12,7 @@ local log = require('utility.logging')
 -- selected.
 awesome.connect_signal('tag_selected', function(tag)
   local screen_id = tostring(tag.screen.index)
-  local path = os.getenv('HOME') ..
-    '/.cache/awesomewm/' ..
-    screen_id .. '-active-tag'
+  local path = paths[tostring(screen_id) .. '-active-tag']
   log.log_to_file(path, tag.name)
 end)
 
@@ -27,7 +26,6 @@ require('utility.tag-overview')
 -- to another tag.
 awesome.connect_signal('client_tagged', function(tag)
   local json = get_workspaces()
-  local path = os.getenv('HOME') ..
-    '/.cache/awesomewm/tag-overview'
+  local path = paths.tag_overview
   log.log_to_file(path, json)
 end)
