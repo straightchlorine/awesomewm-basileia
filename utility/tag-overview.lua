@@ -5,7 +5,7 @@ local awful = require('awful')
 -- and returns the sum.
 -- @param tag given tag
 -- @return sum of the clients from tag
-function count_clients(tag)
+local function count_clients(tag)
   local count = 0
   for _, c in ipairs(tag:clients()) do
     count = count + 1
