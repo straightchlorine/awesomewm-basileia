@@ -32,6 +32,9 @@ awful.keyboard.append_global_keybindings({
 	awful.key({ mod }, 'r', function()
 		awful.spawn.with_shell(defaults.launcher)
 	end, { desciption = 'application launcher', group = 'key' }),
+	awful.key({ mod }, 'w', function()
+		awful.spawn.with_shell(defaults.browser)
+	end, { desciption = 'application launcher', group = 'key' }),
   -- TODO: add another bind for rotating the screen and switching
   -- eww bars from horizontal to vertical (vice versa)
 })
@@ -125,10 +128,6 @@ client.connect_signal("request::default_mousebindings", function()
 	})
 end)
 
--- sloppy focus
-client.connect_signal("mouse::enter", function(c)
-  c:emit_signal("request::activate", "mouse_enter", { raise = false })
-end)
 
 -- hardware
 awful.keyboard.append_global_keybindings({
@@ -180,7 +179,10 @@ awful.keyboard.append_global_keybindings({
   end, { description = 'select previous', group = 'layout' }),
 })
 
+
 -- tag
+local focus = require('utility.focus')
+
 awful.keyboard.append_global_keybindings({
 	awful.key({
 		modifiers = { mod },
@@ -194,8 +196,10 @@ awful.keyboard.append_global_keybindings({
       if tag then
         if tag == screen.selected_tag then
           awful.tag.history.restore()
+          focus.first_tag()
         else
           tag:view_only()
+          focus.first_tag()
         end
       end
     end,
@@ -218,7 +222,7 @@ awful.keyboard.append_global_keybindings({
 
 -- client
 client.connect_signal('request::default_keybindings', function()
-  awful.keyboard.append_global_keybindings({
+  awful.keyboard.append_client_keybindings({
     -- swapping (vim)
     awful.key({ mod, shift }, 'k', function(c)
       awful.client.swap.bydirection('up', c, nil)
@@ -253,16 +257,16 @@ client.connect_signal('request::default_keybindings', function()
     ),
 
     -- toggle fullscreen
-    awful.key({ mod }, 'f', function()
-      client.focus.fullscreen = not client.focus.fullscreen
-      client.focus:raise()
+    awful.key({ mod }, 'f', function(c)
+      c.focus.fullscreen = not c.focus.fullscreen
+      c.focus:raise()
     end),
 
-    awful.key({ mod }, 'n', function()
-      client.focus.minimized = true
+    awful.key({ mod }, 'n', function(c)
+      c.focus.minimized = true
     end, { description = 'minimize', group = 'client' }),
 
-    awful.key({ mod, ctrl }, 'n', function()
+    awful.key({ mod, ctrl }, 'n', function(c)
       local c = awful.client.restore()
       if c then
         c:activate({ raise = true, context = 'key.unminimize' })
@@ -270,18 +274,18 @@ client.connect_signal('request::default_keybindings', function()
     end, { description = 'unminimize', group = 'client' }),
 
     -- on top
-    awful.key({ mod }, 'p', function()
-      client.focus.ontop = not client.focus.ontop
+    awful.key({ mod }, 'p', function(c)
+      c.focus.ontop = not c.focus.ontop
     end),
 
     -- close window
-    awful.key({ mod }, 'q', function()
-      client.focus:kill()
+    awful.key({ mod }, 'q', function(c)
+      c:kill()
     end),
 
     -- center window
-    awful.key({ mod }, 'c', function()
-      awful.placement.centered(client.focus, { honor_workarea = true, honor_padding = true })
+    awful.key({ mod }, 'c', function(c)
+      awful.placement.centered(c, { honor_workarea = true, honor_padding = true })
     end),
   })
 end)
