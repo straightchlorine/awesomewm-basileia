@@ -15,7 +15,6 @@ local defaults = {
     volume_up = 'mpc volume +2',
     volume_down = 'mpc volume -2',
     toggle_mute = 'pactl set-sink-mute @DEFAULT_SINK@ toggle',
-    current_track = [[mpc current | sed 's/\[.*// ']]
   }
 }
 

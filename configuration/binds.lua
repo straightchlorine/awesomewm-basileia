@@ -3,7 +3,7 @@ local awful = require('awful')
 
 --- keybindings popup
 local hotkeys_popup = require('awful.hotkeys_popup')
-require("awful.hotkeys_popup.keys")
+require('awful.hotkeys_popup.keys')
 
 local defaults = require('configuration.default-applications')
 
@@ -43,12 +43,12 @@ awful.keyboard.append_global_keybindings({
 
 -- multihead
 awful.keyboard.append_global_keybindings({
-  awful.key({ mod, alt }, "l", function ()
+  awful.key({ mod, alt }, 'l', function ()
     awful.screen.focus_relative(1)
-  end, { description = "focus the next screen", group = "display" }),
-  awful.key({ mod, alt }, "h", function ()
+  end, { description = 'focus the next screen', group = 'display' }),
+  awful.key({ mod, alt }, 'h', function ()
     awful.screen.focus_relative(-1)
-  end, { description = "focus the previous screen", group = "display" })
+  end, { description = 'focus the previous screen', group = 'display' })
 })
 
 -- focus by direction
@@ -116,21 +116,22 @@ awful.keyboard.append_global_keybindings({
 })
 
 -- mouse
-client.connect_signal("request::default_mousebindings", function()
+client.connect_signal('request::default_mousebindings', function()
 	awful.mouse.append_client_mousebindings({
 		awful.button({}, 1, function(c)
-			c:activate({ context = "mouse_click" })
+			c:activate({ context = 'mouse_click' })
 		end),
 		awful.button({ mod }, 1, function(c)
-			c:activate({ context = "mouse_click", action = "mouse_move"})
+			c:activate({ context = 'mouse_click', action = 'mouse_move'})
 		end),
 		awful.button({ mod }, 3, function(c)
-			c:activate({ context = "mouse_click", action = "mouse_resize"})
+			c:activate({ context = 'mouse_click', action = 'mouse_resize'})
 		end),
 	})
 end)
 
 -- hardware
+local mpd = require('utility.music')
 awful.keyboard.append_global_keybindings({
 	awful.key({}, 'XF86MonBrightnessUp', function()
 		awful.spawn('brightnessctl set 5%+ -q', false)
@@ -150,13 +151,16 @@ awful.keyboard.append_global_keybindings({
 
 	awful.key({}, 'XF86AudioPlay', function()
     awful.spawn.with_shell(defaults.mpd_manager.play_pause)
-	end, { description = 'play/pause music', group = 'music' }),
+    mpd.notify()
+	end, { description = 'play/pause', group = 'music' }),
 	awful.key({}, 'XF86AudioPrev', function()
     awful.spawn.with_shell(defaults.mpd_manager.previous)
-	end, { description = 'previous music', group = 'music' }),
+    mpd.notify()
+	end, { description = 'previous', group = 'music' }),
 	awful.key({}, 'XF86AudioNext', function()
     awful.spawn.with_shell(defaults.mpd_manager.next)
-	end, { description = 'next music', group = 'music' }),
+    mpd.notify()
+	end, { description = 'next', group = 'music' }),
 })
 
 -- layout
