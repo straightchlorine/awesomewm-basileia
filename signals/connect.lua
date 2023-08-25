@@ -32,8 +32,8 @@ awesome.connect_signal('client_tagged', function(tag)
 end)
 
 --- Enables sloppy focus.
-client.connect_signal("mouse::enter", function(c)
-  c:emit_signal("request::activate", "mouse_enter",
+client.connect_signal('mouse::enter', function(c)
+  c:emit_signal('request::activate', 'mouse_enter',
     { raise = false }
   )
 end)
@@ -41,13 +41,21 @@ end)
 local awful = require('awful')
 
 --- Immediate focus for new clients.
-client.connect_signal("manage", function(c)
-    awful.ewmh.activate(c, "client")
+client.connect_signal('manage', function(c)
+    awful.ewmh.activate(c, 'client')
 end)
 
-local focus = require('utility.focus')
 
 --- Handing the focus over to another client after killing.
-client.connect_signal("unmanage", function(c)
+local focus = require('utility.focus')
+
+client.connect_signal('unmanage', function(c)
   focus.first_tag()
+end)
+
+--- Handling request to display currently played song.
+local mpd = require('utility.music')
+
+awesome.connect_signal('notify_track_played', function(c)
+  mpd.notify()
 end)
