@@ -1,5 +1,4 @@
 --- binds.lua
-
 local awful = require('awful')
 
 --- keybindings popup
@@ -34,7 +33,10 @@ awful.keyboard.append_global_keybindings({
 	end, { desciption = 'application launcher', group = 'key' }),
 	awful.key({ mod }, 'w', function()
 		awful.spawn.with_shell(defaults.browser)
-	end, { desciption = 'application launcher', group = 'key' }),
+	end, { desciption = 'web browser', group = 'key' }),
+	awful.key({ mod }, 'm', function()
+		awful.spawn(defaults.music_player)
+	end, { desciption = 'music player', group = 'key' }),
   -- TODO: add another bind for rotating the screen and switching
   -- eww bars from horizontal to vertical (vice versa)
 })
@@ -128,7 +130,6 @@ client.connect_signal("request::default_mousebindings", function()
 	})
 end)
 
-
 -- hardware
 awful.keyboard.append_global_keybindings({
 	awful.key({}, 'XF86MonBrightnessUp', function()
@@ -138,25 +139,24 @@ awful.keyboard.append_global_keybindings({
 		awful.spawn('brightnessctl set 5%- -q', false)
 	end, { description = 'brightness down', group = 'hardware' }),
 	awful.key({}, 'XF86AudioRaiseVolume', function()
-		awful.spawn('amixer sset Master 5%+', false)
+		awful.spawn.with_shell(defaults.mpd_manager.volume_up)
 	end, { description = 'volume up', group = 'hardware' }),
 	awful.key({}, 'XF86AudioLowerVolume', function()
-		awful.spawn('amixer sset Master 5%-', false)
+		awful.spawn.with_shell(defaults.mpd_manager.volume_down)
 	end, { description = 'volume down', group = 'hardware' }),
 	awful.key({}, 'XF86AudioMute', function()
-		awful.spawn('amixer sset Master toggle', false)
+		awful.spawn.with_shell(defaults.mpd_manager.toggle_mute)
 	end, { description = 'volume mute', group = 'hardware' }),
 
-  -- update
-	--awful.key({}, 'XF86AudioPlay', function()
-	--  playerctl_daemon:play_pause()
-	--end, { description = 'play/pause music', group = 'music' }),
-	--awful.key({}, 'XF86AudioPrev', function()
-	--  playerctl_daemon:previous()
-	--end, { description = 'previous music', group = 'music' }),
-	--awful.key({}, 'XF86AudioNext', function()
-	--  playerctl_daemon:next()
-	--end, { description = 'next music', group = 'music' }),
+	awful.key({}, 'XF86AudioPlay', function()
+    awful.spawn.with_shell(defaults.mpd_manager.play_pause)
+	end, { description = 'play/pause music', group = 'music' }),
+	awful.key({}, 'XF86AudioPrev', function()
+    awful.spawn.with_shell(defaults.mpd_manager.previous)
+	end, { description = 'previous music', group = 'music' }),
+	awful.key({}, 'XF86AudioNext', function()
+    awful.spawn.with_shell(defaults.mpd_manager.next)
+	end, { description = 'next music', group = 'music' }),
 })
 
 -- layout
@@ -178,7 +178,6 @@ awful.keyboard.append_global_keybindings({
     awful.layout.inc(-1)
   end, { description = 'select previous', group = 'layout' }),
 })
-
 
 -- tag
 local focus = require('utility.focus')
