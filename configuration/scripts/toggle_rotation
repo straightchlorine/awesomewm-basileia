@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# toggle_rotation
+# toggles the rotation on a given display
+
+xrandr_query=$(xrandr --query | grep '1080x1920')
+display=$1
+
+if [[ $xrandr_query == '' ]]; then
+  # if no output then every screen is in normal rotation
+  $HOME/.config/awesome/configuration/scripts/rotate_display $display 'right'
+else
+  $HOME/.config/awesome/configuration/scripts/rotate_display $display 'normal'
+fi

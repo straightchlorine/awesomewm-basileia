@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# rotate_display
+# rotates display to given position and switches
+# eww widgets (assumes main display is rotated)
+
+display=$1
+rotation=$2
+
+xrandr --output $1 --rotate $rotation
+
+if [[ $rotation == 'right' ]] || [[ $rotation == 'left' ]]; then
+  $HOME/.cache/yay/eww/target/release/eww close horizontal-bar
+  $HOME/.cache/yay/eww/target/release/eww open vertical-bar
+else
+  $HOME/.cache/yay/eww/target/release/eww close vertical-bar
+  $HOME/.cache/yay/eww/target/release/eww open horizontal-bar
+fi
+
+$HOME/.fehbg
