@@ -37,8 +37,9 @@ awful.keyboard.append_global_keybindings({
 	awful.key({ mod }, 'm', function()
 		awful.spawn(defaults.music_player)
 	end, { desciption = 'music player', group = 'key' }),
-  -- TODO: add another bind for rotating the screen and switching
-  -- eww bars from horizontal to vertical (vice versa)
+	awful.key({ mod, shift }, 'f', function()
+		awful.spawn.with_shell(defaults.rotate_display)
+	end, { desciption = 'display rotation', group = 'key' }),
 })
 
 -- multihead
