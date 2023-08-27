@@ -1,20 +1,30 @@
 #!/bin/bash
 
+# autorun
+# launches programs at startup
+
 # setting the keyboard map
 setxkbmap pl
 
 # run unless there is already an instance
 run () {
-    if ! pgrep -f "$1" ;
-    then
-        "$@"&
-    fi
+  if ! pgrep -f "$1" ;
+  then
+    "$@"&
+  fi
 }
 
 # compositor
-run 'picom -b'
+run picom
 
 # wallpaper
 $HOME/.fehbg
 
-# add logic for eww widgets once it's time
+# opening eww widgets on startup
+display_count=$(xrandr -q | grep -w 'connected' | wc -l)
+if [[ $display_count -gt 1 ]]; then
+  eww open horizontal-bar
+  eww open-many side-workspaces side-clock
+else
+  eww open horizontal-bar 
+fi
