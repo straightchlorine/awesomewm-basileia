@@ -12,9 +12,16 @@ run () {
 }
 
 # compositor
-run 'picom -b'
+run picom
 
 # wallpaper
 $HOME/.fehbg
 
-# add logic for eww widgets once it's time
+# opening eww widgets on startup
+display_count=$(xrandr -q | grep -w 'connected' | wc -l)
+if [[ $display_count -gt 1 ]]; then
+  $HOME/.cache/yay/eww/target/release/eww open horizontal-bar
+  $HOME/.cache/yay/eww/target/release/eww open-many side-workspaces side-clock
+else
+  $HOME/.cache/yay/eww/target/release/eww open horizontal-bar
+fi
