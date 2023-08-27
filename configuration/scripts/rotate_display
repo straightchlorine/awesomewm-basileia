@@ -9,11 +9,12 @@ rotation=$2
 
 xrandr --output $1 --rotate $rotation
 
-
 if [[ $rotation == 'right' ]] || [[ $rotation == 'left' ]]; then
-  eww close horizontal-bar
-  eww open vertical-bar
+  $HOME/.cache/yay/eww/target/release/eww close horizontal-bar
+  $HOME/.cache/yay/eww/target/release/eww open vertical-bar
 else
-  eww close vertical-bar
-  eww open horizontal-bar
+  $HOME/.cache/yay/eww/target/release/eww close vertical-bar
+  $HOME/.cache/yay/eww/target/release/eww open horizontal-bar
 fi
+
+$HOME/.fehbg

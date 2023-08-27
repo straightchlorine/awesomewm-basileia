@@ -8,7 +8,7 @@ display=$1
 
 if [[ $xrandr_query == '' ]]; then
   # if no output then every screen is in normal rotation
-  ./rotate_display $display 'right'
+  $HOME/.config/awesome/configuration/scripts/rotate_display $display 'right'
 else
-  ./rotate_display $display 'normal'
+  $HOME/.config/awesome/configuration/scripts/rotate_display $display 'normal'
 fi
