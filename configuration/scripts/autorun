@@ -1,14 +1,17 @@
 #!/bin/bash
 
+# autorun
+# launches programs at startup
+
 # setting the keyboard map
 setxkbmap pl
 
 # run unless there is already an instance
 run () {
-    if ! pgrep -f "$1" ;
-    then
-        "$@"&
-    fi
+  if ! pgrep -f "$1" ;
+  then
+    "$@"&
+  fi
 }
 
 # compositor
