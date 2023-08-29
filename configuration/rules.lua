@@ -54,9 +54,6 @@ ruled.client.connect_signal('request::rules', function()
       valid = false,
       focusable = false,
       border_width = 0,
-      skip_taskbar = true,
-      skip_pager = true,
-      ontop = true
     },
   })
 end)
