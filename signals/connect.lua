@@ -26,9 +26,7 @@ require('utility.tag-overview')
 -- manager, updated each time new client is open or moved
 -- to another tag.
 awesome.connect_signal('client_tagged', function(tag)
-  local json = get_workspaces()
-  local path = paths.tag_overview
-  log.log_to_file(path, json)
+  log.log_to_file(paths.tag_overview, get_workspaces())
 end)
 
 --- Enables sloppy focus.
@@ -51,6 +49,7 @@ local focus = require('utility.focus')
 
 client.connect_signal('unmanage', function(c)
   focus.first_tag()
+  log.log_to_file(paths.tag_overview, get_workspaces())
 end)
 
 --- Handling request to display currently played song.

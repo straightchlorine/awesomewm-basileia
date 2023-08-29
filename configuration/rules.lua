@@ -53,10 +53,8 @@ ruled.client.connect_signal('request::rules', function()
     properties = {
       valid = false,
       focusable = false,
-      border_width = 0,
       skip_taskbar = true,
-      skip_pager = true,
-      ontop = true
+      border_width = 0,
     },
   })
 end)

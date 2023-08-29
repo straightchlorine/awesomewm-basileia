@@ -262,8 +262,8 @@ client.connect_signal('request::default_keybindings', function()
 
     -- toggle fullscreen
     awful.key({ mod }, 'f', function(c)
-      c.focus.fullscreen = not c.focus.fullscreen
-      c.focus:raise()
+      c.fullscreen = not c.fullscreen
+      c:raise()
     end),
 
     awful.key({ mod }, 'n', function(c)
@@ -284,7 +284,9 @@ client.connect_signal('request::default_keybindings', function()
 
     -- close window
     awful.key({ mod }, 'q', function(c)
-      c:kill()
+      if not c.skip_taskbar then
+        c:kill()
+      end
     end),
 
     -- center window

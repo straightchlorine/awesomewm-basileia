@@ -8,7 +8,9 @@ local awful = require('awful')
 local function count_clients(tag)
   local count = 0
   for _, c in ipairs(tag:clients()) do
-    count = count + 1
+    if not c.skip_taskbar then
+      count = count + 1
+    end
   end
   return count
 end
