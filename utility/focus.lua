@@ -1,6 +1,5 @@
 --- focus.lua
--- Functions handling focus management, 
--- if necessary.
+-- Functions handling focus if necessary.
 
 local awful = require('awful')
 
@@ -17,5 +16,10 @@ function focus.first_tag()
   end
 end
 
-return focus
+function focus.move_to_top(c)
+  if c.floating then
+    c:raise()
+  end
+end
 
+return focus

@@ -52,9 +52,15 @@ client.connect_signal('unmanage', function(c)
   log.log_to_file(paths.tag_overview, get_workspaces())
 end)
 
+client.connect_signal('focus', function(c)
+  focus.move_to_top(c)
+end)
+
 --- Handling request to display currently played song.
 local mpd = require('utility.music')
 
 awesome.connect_signal('notify_track_played', function(c)
   mpd.notify()
 end)
+
+
