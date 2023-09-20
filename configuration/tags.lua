@@ -5,8 +5,10 @@ local signals = require('signals.tag-signals')
 -- default layouts
 tag.connect_signal("request::default_layouts", function()
   awful.layout.append_default_layouts({
-    awful.layout.suit.fair,
-    awful.layout.suit.fair.horizontal
+    awful.layout.suit.tile,
+    awful.layout.suit.tile.left,
+    awful.layout.suit.tile.bottom,
+    awful.layout.suit.tile.top
   })
 end)
 
