@@ -6,8 +6,13 @@
 local awful = require('awful')
 
 local system = {}
-local ram_script = os.getenv('HOME') .. '/.config/awesome/widgets/scripts/ram_usage'
-local cpu_script = os.getenv('HOME') .. '/.config/awesome/widgets/scripts/cpu_usage'
+
+-- path to the cpu_usage script
+local cpu_script = os.getenv('HOME') .. '/.config/awesome/widgets/scripts/cpu-usage'
+-- path to the ram_usage script
+local ram_script = os.getenv('HOME') .. '/.config/awesome/widgets/scripts/ram-usage'
+-- path to the network-sample script
+local net_script = os.getenv('HOME') .. '/.config/awesome/widgets/scripts/network-sample'
 
 --- Return awful.widget object containing usage of cpu.
 function system.cpu()
@@ -47,4 +52,29 @@ function system.root()
 
   return root
 end
+
+-- Return awful.widget object displaying information received through the
+-- network interface.
+function system.net_rx()
+
+  local rx = awful.widget.watch(net_script .. ' --rx', 1, function (widget, stdout)
+    widget:set_text(' ' .. stdout)
+    widget.forced_width = 120
+  end)
+
+  return rx
+end
+
+-- Return awful.widget object displaying information sent through the
+-- network interface.
+function system.net_tx()
+
+  local tx = awful.widget.watch(net_script .. ' --tx', 1, function (widget, stdout)
+    widget:set_text(' ' .. stdout)
+    widget.forced_width = 120
+  end)
+
+  return tx
+end
+
 return system
