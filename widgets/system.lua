@@ -6,8 +6,8 @@
 local awful = require('awful')
 
 local system = {}
-local ram_script = os.getenv('HOME') .. '/.config/widgets/scripts/ram_usage'
-local cpu_script = os.getenv('HOME') .. '/.config/widgets/scripts/cpu_usage'
+local ram_script = os.getenv('HOME') .. '/.config/awesome/widgets/scripts/ram_usage'
+local cpu_script = os.getenv('HOME') .. '/.config/awesome/widgets/scripts/cpu_usage'
 
 --- Return awful.widget object containing usage of cpu.
 function system.cpu()
@@ -35,4 +35,16 @@ function system.ram()
   return ram
 end
 
+--- Return awful.widget object displaying space occupied on the root partition.
+function system.root()
+
+  local root = awful.widget.watch([[df -h /]], 60, function(widget, stdout)
+    for line in stdout:gmatch('[%d]+%%+') do
+      widget:set_text('  ' .. line)
+    end
+    widget.forced_width = 80
+  end)
+
+  return root
+end
 return system
