@@ -15,6 +15,8 @@ local ram_script = os.getenv('HOME') .. '/.config/awesome/widgets/scripts/ram-us
 local net_script = os.getenv('HOME') .. '/.config/awesome/widgets/scripts/network-sample'
 
 --- Return awful.widget object containing usage of cpu.
+--
+-- @return awful.widget
 function system.cpu()
 
   local cpu = awful.widget.watch(cpu_script, 1, function (widget, stdout)
@@ -28,6 +30,8 @@ function system.cpu()
 end
 
 --- Return awful.widget object containing usage of ram.
+--
+-- @return awful.widget
 function system.ram()
 
   local ram = awful.widget.watch(ram_script, 1, function (widget, stdout)
@@ -41,6 +45,8 @@ function system.ram()
 end
 
 --- Return awful.widget object displaying space occupied on the root partition.
+--
+-- @return awful.widget
 function system.root()
 
   local root = awful.widget.watch([[df -h /]], 60, function(widget, stdout)
@@ -53,8 +59,10 @@ function system.root()
   return root
 end
 
--- Return awful.widget object displaying information received through the
--- network interface.
+--- Return awful.widget object displaying information received through the
+--- network interface.
+--
+-- @return awful.widget
 function system.net_rx()
 
   local rx = awful.widget.watch(net_script .. ' --rx', 1, function (widget, stdout)
@@ -65,8 +73,10 @@ function system.net_rx()
   return rx
 end
 
--- Return awful.widget object displaying information sent through the
--- network interface.
+--- Return awful.widget object displaying information sent through the
+--- network interface.
+--
+-- @return awful.widget
 function system.net_tx()
 
   local tx = awful.widget.watch(net_script .. ' --tx', 1, function (widget, stdout)
@@ -75,6 +85,43 @@ function system.net_tx()
   end)
 
   return tx
+end
+
+local wibox = require('wibox')
+
+--- Returns awful.widget object displaying information both received and
+--- transmitted through network interface.
+--
+-- @return awful.widget
+function system.network()
+  return {
+    system.net_rx(),
+    system.net_tx(),
+    layout = wibox.layout.fixed.horizontal
+  }
+end
+
+--- Groups widgets presenting disk, ram and cpu usage.
+--
+-- @return awful.widget
+function system.info()
+  return {
+    system.root(),
+    system.ram(),
+    system.cpu(),
+    layout = wibox.layout.fixed.horizontal
+  }
+end
+
+--- Groups network, disk, ram and cpu widgets into single one.
+--
+-- @return awful.widget
+function system.status()
+  return {
+    system.network(),
+    system.info(),
+    layout = wibox.layout.align.horizontal
+  }
 end
 
 return system
