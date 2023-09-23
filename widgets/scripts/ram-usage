@@ -1,5 +1,5 @@
 #!/bin/lua
---- ram_usage.lua
+--- ram-usage
 -- Script calculates percentage of ram memory currently used, 
 -- based on /proc/meminfo.
 ---

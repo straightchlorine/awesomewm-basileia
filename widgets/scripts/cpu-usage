@@ -1,5 +1,5 @@
 #!/bin/lua
---- cpu_usage.lua
+--- cpu-usage
 -- Script calculates approximate cpu usage(%) within 1 second, using /proc/stat file.
 ---
 
