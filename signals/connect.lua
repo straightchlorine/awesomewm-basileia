@@ -25,7 +25,7 @@ require('utility.tag-overview')
 -- clients) of all tags on every display managed by window
 -- manager, updated each time new client is open or moved
 -- to another tag.
-awesome.connect_signal('client_tagged', function(tag)
+awesome.connect_signal('client_tagged', function()
   log.log_to_file(paths.tag_overview, get_workspaces())
 end)
 
@@ -47,7 +47,7 @@ end)
 --- Handing the focus over to another client after killing.
 local focus = require('utility.focus')
 
-client.connect_signal('unmanage', function(c)
+client.connect_signal('unmanage', function()
   focus.first_tag()
   log.log_to_file(paths.tag_overview, get_workspaces())
 end)
@@ -59,8 +59,6 @@ end)
 --- Handling request to display currently played song.
 local mpd = require('utility.music')
 
-awesome.connect_signal('notify_track_played', function(c)
+awesome.connect_signal('notify_track_played', function()
   mpd.notify()
 end)
-
-
