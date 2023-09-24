@@ -37,12 +37,35 @@ awful.keyboard.append_global_keybindings({
   awful.key({ mod }, 'w', function()
     awful.spawn.with_shell(defaults.browser)
   end, { desciption = 'web browser', group = 'key' }),
-  awful.key({ mod }, 'm', function()
-    awful.spawn(defaults.music_player)
+  awful.key({ mod, shift }, 'm', function()
+    awful.spawn(defaults.music_player, {
+      floating = true,
+      ontop = true,
+      placement = awful.placement.centered
+    })
   end, { desciption = 'music player', group = 'key' }),
   awful.key({ mod, shift }, 'f', function()
     awful.spawn.with_shell(defaults.rotate_display)
   end, { desciption = 'display rotation', group = 'key' }),
+  awful.key({ mod }, 'b', function()
+    require('utility.bar_management').toggle_switch_bars()
+  end, { desciption = 'switch bars', group = 'key' }),
+})
+
+-- rofi applets
+awful.keyboard.append_global_keybindings({
+  awful.key({ mod }, 'm', function()
+    awful.spawn.with_shell(defaults.mpd_manager.mpd_rofi_popup)
+  end, { desciption = 'mpd popup', group = 'rofi applets' }),
+  awful.key({ mod, shift }, 's', function()
+    awful.spawn.with_shell(defaults.screenshot_utility)
+  end, { desciption = 'screenshot utility', group = 'rofi applets' }),
+  awful.key({ mod }, 'v', function()
+    awful.spawn.with_shell(defaults.volume_control_utility)
+  end, { desciption = 'volume control utility', group = 'rofi applets' }),
+  awful.key({ mod, shift }, 'p', function()
+    awful.spawn.with_shell(defaults.powermenu)
+  end, { desciption = 'powermenu', group = 'rofi applets' }),
 })
 
 -- multihead
