@@ -10,16 +10,14 @@ local circumstances = require('widgets.circumstances')
 
 local bars = {}
 
----
---- Attach new main bar to the screen.
---- It displays taglist, current time, date and weather, data received and
---- transmitted through network interface, how much of root partition is 
---- occupied (in %), ram usage (in %) and cpu usage(in %).
----
----
----@param s screen screen object to attach to
----@param modkey string usually windows key
----
+--- Attach new main bar to the  screen.
+--
+-- It displays taglist, current time, date and weather, data received and
+-- transmitted through network interface, how much of root partition is 
+-- occupied (in %), ram usage (in %) and cpu usage(in %).
+--
+-- @param s screen object to attach to
+-- @param modkey usually windows key
 function bars.main_bar (s, modkey)
 
   -- attach the taglist to the screen
@@ -36,7 +34,7 @@ function bars.main_bar (s, modkey)
         layout = wibox.layout.align.horizontal
       },
       {
-        circumstances.status(),
+        circumstances.status(s),
         layout = wibox.layout.align.horizontal
       },
       {
@@ -48,13 +46,11 @@ function bars.main_bar (s, modkey)
 
 end
 
----
 --- Attach new side bar to the screen.
---- It displays taglist, current time, date and weather.
----
----@param s screen screen object to attach to
----@param modkey string usually windows key
----
+-- It displays taglist, current time, date and weather.
+--
+-- @param s screen object to attach to
+-- @param modkey usually windows key
 function bars.side_bar (s, modkey)
 
   -- attach the taglist to the screen
@@ -75,7 +71,7 @@ function bars.side_bar (s, modkey)
         thickness = 0,
       },
       {
-        circumstances.status(),
+        circumstances.status(s),
         layout = wibox.layout.align.horizontal
       }
     }
@@ -84,3 +80,4 @@ function bars.side_bar (s, modkey)
 end
 
 return bars
+-- vim: filetype=lua:expandtab:shiftwidth=2:tabstop=4:softtabstop=2:textwidth=80
