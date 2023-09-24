@@ -1,0 +1,9 @@
+#!/bin/bash
+
+if [ $1 == '--rx' ]; then
+  output=$(vnstat --traffic 2 | rg rx | awk '{print $2}{print $3}')
+  echo $output
+elif [ $1 == '--tx' ]; then
+  output=$(vnstat --traffic 2 | rg tx | awk '{print $2}{print $3}')
+  echo $output
+fi
