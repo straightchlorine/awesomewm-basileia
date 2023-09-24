@@ -62,50 +62,14 @@ ruled.client.connect_signal('request::rules', function()
   ruled.client.append_rule({
     rule_any = {
       class = {
-        'steam',
-        'steamwebhelper'
-      }
-    },
-    properties = {
-      screen = screen.count(),
-      tag = '10',
-      ontop = true,
-      x = 890,
-      y = 355,
-    },
-  })
-
-  -- steam friend list
-  ruled.client.append_rule({
-    rule_any = {
+        'steamwebhelper',
+      },
       name = {
-        'Friends List'
+        'Steam',
       }
     },
     properties = {
-      x = 1655,
-      y = 434,
-      floating = true,
-      ontop = true,
-      width = 226,
-      height = 571
-    },
-  })
-
-  -- steam client
-  ruled.client.append_rule({
-    rule_any = {
-      name = {
-        'Steam'
-      }
-    },
-    properties = {
-      x = 9,
-      y = 54,
-      ontop = true,
-      floating = true,
-      width = 1902,
-      height = 1017
+      tag = screen[screen.count()].tags[10]
     },
   })
 
