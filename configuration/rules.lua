@@ -72,4 +72,20 @@ ruled.client.connect_signal('request::rules', function()
     },
   })
 
+  -- discord
+  ruled.client.append_rule({
+    rule_any = {
+      class = {
+        'discord',
+      },
+    },
+    properties = {
+      tag = screen[screen.count()].tags[9],
+      floating = true,
+      width = 1144,
+      height = 610,
+      placement = awful.placement.centered
+    },
+  })
+
 end)
