@@ -5,9 +5,7 @@
 local awful = require('awful')
 
 --- Get an array of buttons used by taglist widget.
--- @return array of buttons
 local function buttons(modkey)
-
   return {
     awful.button({ }, 1, function(t)
       t:view_only() 
@@ -30,22 +28,17 @@ local function buttons(modkey)
       awful.tag.viewnext(t.screen)
     end),
   }
-
 end
 
 local taglist = {}
 
 --- Attach taglist widget to given screen.
--- @param screen object
--- @param modkey key used as Mod in coniguration
 function taglist.attach (s, modkey)
-
-   s.workspaces = awful.widget.taglist {
+  s.taglist = awful.widget.taglist {
     screen = s,
     filter = awful.widget.taglist.filter.all,
     buttons = buttons(modkey)
   }
-
 end
 
 return taglist
