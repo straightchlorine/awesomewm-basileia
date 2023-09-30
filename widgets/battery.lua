@@ -26,7 +26,7 @@ end
 -- Note: uses acpi utility.
 --
 -- @return int current capacity
-function battery.percentage()
+function battery.status()
   local status = [=[
     acpi -b |
     head -n 1 |
@@ -51,11 +51,11 @@ end
 -- @return int current capacity
 function battery.capacity()
   local capacity = [=[
-    acpi -b | 
-    head -n 1 | 
-    sed 's/.*: //' | 
-    awk -F ',' '{print $2}' | 
-    tr -d ' ' | 
+    acpi -b |
+    head -n 1 |
+    sed 's/.*: //' |
+    awk -F ',' '{print $2}' |
+    tr -d ' ' |
     sed 's/%//'
   ]=]
 
