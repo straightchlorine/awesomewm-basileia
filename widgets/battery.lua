@@ -21,6 +21,29 @@ function battery.exists()
   end)
 end
 
+--- Returns status of the battery.
+--
+-- Note: uses acpi utility.
+--
+-- @return int current capacity
+function battery.percentage()
+  local status = [=[
+    acpi -b |
+    head -n 1 |
+    sed 's/.*: //' |
+    awk -F ',' '{print $1}' |
+    tr -d ' ' |
+    sed 's/%//'
+  ]=]
+
+  local battery_status = nil
+  awful.spawn.easy_async_with_shell(status, function(out)
+    battery_status = out
+  end)
+
+  return battery_status
+end
+
 --- Returns percentage of battery capacity.
 --
 -- Note: uses acpi utility.
