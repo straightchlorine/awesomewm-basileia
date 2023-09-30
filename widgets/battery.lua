@@ -67,4 +67,43 @@ function battery.capacity()
   return tonumber(capacity_percentage)
 end
 
+--- Returns icon for battery, depending on capacity and status.
+--
+-- @param capacity current capacity of the battery (in %)
+-- @param status current status of the battery (for example Charging)
+-- @return str icon
+function battery.icon(capacity, status)
+  if status == 'Charging' then
+    if capacity == 100 then
+      return '󰂃'
+    else
+      return '󰂄'
+    end
+  else
+    if capacity < 10 then
+      return '󰂃'
+    elseif capacity < 20 and capacity >= 10 then
+      return '󰁺'
+    elseif capacity < 30 and capacity >= 20 then
+      return '󰁻'
+    elseif capacity < 40 and capacity >= 30 then
+      return '󰁼'
+    elseif capacity < 50 and capacity >= 40 then
+      return '󰁽'
+    elseif capacity < 60 and capacity >= 50 then
+      return '󰁾'
+    elseif capacity < 70 and capacity >= 60 then
+      return '󰁿'
+    elseif capacity < 80 and capacity >= 70 then
+      return '󰂀'
+    elseif capacity < 90 and capacity >= 80 then
+      return '󰂂'
+    elseif capacity < 95 and capacity >= 90 then
+      return '󰂂'
+    elseif capacity <= 100 and capacity >= 95 then
+      return '󰁹'
+    end
+  end
+end
+
 return battery
