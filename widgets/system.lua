@@ -69,8 +69,6 @@ end
 local debug = require('utility.deubg')
 function system.battery()
 
-  local battery = require('widgets.battery')
-
   local capacity = [=[
     acpi -b |
     head -n 1 |
@@ -82,11 +80,22 @@ function system.battery()
 
   local bat = awful.widget.watch(capacity, 1, function (widget, stdout)
     for line in stdout:gmatch('%d+') do
-      local status = battery.status()
-      widget:set_text(battery.icon(tonumber(line), status) .. '  ' .. line .. '%')
+      local status_command = [=[
+        acpi -b |
+        head -n 1 |
+        sed 's/.*: //' |
+        awk -F ',' '{print $1}' |
+        tr -d ' ' |
+        sed 's/%//'
+      ]=]
+
+      awful.spawn.easy_async_with_shell(status_command, function(out)
+        local battery = require('widgets.battery')
+        local status = out
+        widget:set_text(battery.icon(tonumber(line), status) .. '  ' .. line .. '%')
+      end)
     end
   end)
-
   return bat
 end
 
