@@ -88,7 +88,7 @@ function system.battery()
         tr -d ' ' |
         sed 's/%//'
       ]=]
-
+      debug.notifyDebug(line)
       awful.spawn.easy_async_with_shell(status_command, function(out)
         local battery = require('widgets.battery')
         local status = out
