@@ -70,7 +70,8 @@ local debug = require('utility.deubg')
 function system.battery()
 
   local battery = require('widgets.battery')
-  local portable = battery.exists()
+
+  debug.notifyDebug(battery.exists())
 
   if battery.exists() then
     local capacity = [=[
