@@ -70,10 +70,10 @@ local battery = require('widgets.battery')
 function system.battery()
 
   local bat = awful.widget.watch('acpi -b', 1, function (widget, stdout)
-    local status, capacity, hours, minutes, seconds =
-      stdout:match(':(.+), (%d+)%%, (%d%d):(%d%d):(%d%d)')
-      widget:set_text(battery.icon(tonumber(capacity), status) .. '  ' .. capacity .. '%')
-      widget.forced_width = 60
+    for status, capacity, hours, minuts, seconds in stdout:gmatch('Battery 0: (.+), (%d+)%%, (%d%d):(%d%d):(%d%d)') do
+        widget:set_text(battery.icon(tonumber(capacity), status) .. '  ' .. capacity .. '%')
+        widget.forced_width = 60
+    end
   end)
 
   return bat
