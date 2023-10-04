@@ -59,6 +59,40 @@ function system.root()
   return root
 end
 
+--- Return awful.widget object displaying state of the battery.
+--
+-- Note that, for the sake of simplicity acpi is used instead of basic 
+-- /sys/class/power_supply directory
+--
+-- @return awful.widget
+
+local debug = require('utility.deubg')
+function system.battery()
+
+  local battery = require('widgets.battery')
+  local portable = battery.exists()
+
+  if battery.exists() then
+    local capacity = [=[
+      acpi -b |
+      head -n 1 |
+      sed 's/.*: //' |
+      awk -F ',' '{print $2}' |
+      tr -d ' ' |
+      sed 's/%//'
+    ]=]
+
+    local bat = awful.widget.watch(capacity, 1, function (widget, stdout)
+      for line in stdout:gmatch('%d+') do
+        local status = battery.status()
+        widget:set_text(battery.icon(tonumber(line), status) .. '  ' .. line .. '%')
+      end
+    end)
+
+    return bat
+  end
+end
+
 --- Return awful.widget object displaying information received through the
 --- network interface.
 --
@@ -120,6 +154,7 @@ function system.status()
   return {
     system.network(),
     system.info(),
+    system.battery(),
     layout = wibox.layout.align.horizontal
   }
 end
