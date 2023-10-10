@@ -37,13 +37,6 @@ awful.keyboard.append_global_keybindings({
   awful.key({ mod }, 'w', function()
     awful.spawn.with_shell(defaults.browser)
   end, { desciption = 'web browser', group = 'key' }),
-  awful.key({ mod, shift }, 'm', function()
-    awful.spawn(defaults.music_player, {
-      floating = true,
-      ontop = true,
-      placement = awful.placement.centered
-    })
-  end, { desciption = 'music player', group = 'key' }),
   awful.key({ mod, shift }, 'f', function()
     awful.spawn.with_shell(defaults.rotate_display)
   end, { desciption = 'display rotation', group = 'key' }),
@@ -192,7 +185,7 @@ awful.keyboard.append_global_keybindings({
 
 -- layout
 awful.keyboard.append_global_keybindings({
-  awful.key({ mod, shift }, 's', function()
+  awful.key({ mod }, 's', function()
     local layout_function = awful.layout.get(mouse.screen)
     local layout_name = awful.layout.getname(layout_function)
 
