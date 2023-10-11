@@ -1,3 +1,7 @@
+--- rules.lua
+-- Contains all the client rules.
+---
+
 local ruled = require('ruled')
 local awful = require('awful')
 
@@ -57,35 +61,5 @@ ruled.client.connect_signal('request::rules', function()
     },
   })
 
-  -- steam
-  ruled.client.append_rule({
-    rule_any = {
-      class = {
-        'steamwebhelper',
-      },
-      name = {
-        'Steam',
-      }
-    },
-    properties = {
-      tag = screen[screen.count()].tags[10]
-    },
-  })
-
-  -- discord
-  ruled.client.append_rule({
-    rule_any = {
-      class = {
-        'discord',
-      },
-    },
-    properties = {
-      tag = screen[screen.count()].tags[9],
-      floating = true,
-      width = 1144,
-      height = 610,
-      placement = awful.placement.centered
-    },
-  })
-
 end)
+-- vim: filetype=lua:expandtab:shiftwidth=2:tabstop=4:softtabstop=2:textwidth=80
