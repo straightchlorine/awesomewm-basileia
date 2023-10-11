@@ -77,3 +77,4 @@ local function get_cpu_usage()
 end
 
 print(get_cpu_usage())
+-- vim: filetype=lua:expandtab:shiftwidth=2:tabstop=4:softtabstop=2:textwidth=80
