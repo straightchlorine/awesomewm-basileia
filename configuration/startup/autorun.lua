@@ -1,13 +1,18 @@
+--- autorun.lua
+-- Directs the initial startup of the window manager.
+---
+
 local awful = require('awful')
-local gears = require('gears')
+local paths = require('utility.paths')
+local eww   = require('utility.eww-integration')
 
-local file_setup = require('utility.logging')
-
-local script_path = gears.filesystem.get_configuration_dir() .. 'configuration/scripts/'
-
+--- Startup function.
 local function autorun ()
-  awful.spawn.with_shell(script_path .. 'autorun')
-  file_setup.base_files()
+  awful.spawn.with_shell(paths.autorun)
+
+  -- NOTE: runs only if variable paths.eww is set to true  
+  eww.setup()
 end
 
 autorun()
+-- vim: filetype=lua:expandtab:shiftwidth=2:tabstop=4:softtabstop=2:textwidth=80
