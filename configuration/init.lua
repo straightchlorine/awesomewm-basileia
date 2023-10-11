@@ -1,8 +1,10 @@
---- init.lua
--- initializes configuration module, which manages most of the configuration.
+--- configuration/init.lua
+-- Initializes configuration module.
 ---
 
 require(... .. '.default-applications')
 require(... .. '.binds')
 require(... .. '.tags')
 require(... .. '.rules')
+
+-- vim: filetype=lua:expandtab:shiftwidth=2:tabstop=4:softtabstop=2:textwidth=80
