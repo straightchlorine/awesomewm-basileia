@@ -3,9 +3,16 @@
 ---
 
 local awful = require('awful')
+local paths = require('utility.paths')
 
 --- Get an array of buttons used by taglist widget.
-local function buttons(modkey)
+-- 
+-- Standard taglist keybindings from the documentation
+-- [https://awesomewm.org/apidoc/sample%20files/rc.lua.html]
+--
+-- @return list of buttons for taglist widget
+local function buttons()
+  modkey = paths.modkey
   return {
     awful.button({ }, 1, function(t)
       t:view_only() 
@@ -33,12 +40,15 @@ end
 local taglist = {}
 
 --- Attach taglist widget to given screen.
-function taglist.attach (s, modkey)
+--
+-- @param s screen object
+function taglist.attach(s)
   s.taglist = awful.widget.taglist {
     screen = s,
     filter = awful.widget.taglist.filter.all,
-    buttons = buttons(modkey)
+    buttons = buttons()
   }
 end
 
 return taglist
+-- vim: filetype=lua:expandtab:shiftwidth=2:tabstop=4:softtabstop=2:textwidth=80
