@@ -3,7 +3,8 @@ local dpi = beautiful.xresources.apply_dpi
 
 local theme = {}
 
---- make colors external
+--- TODO: make coloring external, managed via script
+
 theme.fg_normal     = '#f5c7a8'
 theme.bg_normal     = '#102e3e'
 
@@ -15,3 +16,4 @@ theme.taglist_bg_focus = '#83a598'
 theme.taglist_bg_occupied = '#3e5f74'
 
 beautiful.init(theme)
+-- vim: filetype=lua:expandtab:shiftwidth=2:tabstop=4:softtabstop=2:textwidth=80
