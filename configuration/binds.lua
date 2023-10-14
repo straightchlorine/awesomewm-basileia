@@ -1,4 +1,7 @@
 --- binds.lua
+-- Contains all the key mappings.
+---
+
 local awful = require('awful')
 
 --- keybindings popup
@@ -16,18 +19,19 @@ local enter = 'Return'
 local shift = 'Shift'
 local alt = 'Mod1'
 local mod = 'Mod4'
+local tab = 'Tab'
 
 --- general keybindings
 awful.keyboard.append_global_keybindings({
   awful.key({ mod, ctrl, shift }, 'r',
     awesome.restart,
-    { description = 'restart', group = 'general' }),
+  { description = 'restart', group = 'general' }),
   awful.key({ mod, ctrl, shift }, 'q',
     awesome.quit,
-    { description = 'quit', group = 'general' }),
+  { description = 'quit', group = 'general' }),
   awful.key({ mod }, 'F1',
     hotkeys_popup.show_help,
-    { description = 'this message', group = 'general' }),
+  { description = 'this message', group = 'general' }),
   awful.key({ mod }, enter, function()
     awful.spawn(defaults.emulator)
   end, { descrpion = 'terminal', group = 'key' }),
@@ -100,6 +104,16 @@ awful.keyboard.append_global_keybindings({
   awful.key({ mod }, 'Right', function()
     awful.client.focus.bydirection('right')
   end, { description = 'focus right', group = 'focus' }),
+})
+
+-- other focus-related binds
+awful.keyboard.append_global_keybindings({
+  awful.key({ mod, ctrl }, 'n', function()
+    local c = awful.client.restore()
+    if c then
+      c:activate { raise = true, context = 'key.unminimize' }
+    end
+  end, { description = 'unminimize', group = 'client' }),
 })
 
 -- resizing
@@ -185,7 +199,7 @@ awful.keyboard.append_global_keybindings({
 
 -- layout
 awful.keyboard.append_global_keybindings({
-  awful.key({ mod }, 's', function()
+  awful.key({ mod, tab }, 'f', function()
     local layout_function = awful.layout.get(mouse.screen)
     local layout_name = awful.layout.getname(layout_function)
 
@@ -249,30 +263,30 @@ client.connect_signal('request::default_keybindings', function()
     -- swapping (vim)
     awful.key({ mod, shift }, 'k', function(c)
       awful.client.swap.bydirection('up', c, nil)
-    end),
+    end, { description = 'move client up', group = 'client' }),
     awful.key({ mod, shift }, 'j', function(c)
       awful.client.swap.bydirection('down', c, nil)
-    end),
+    end, { description = 'move client down', group = 'client' }),
     awful.key({ mod, shift }, 'h', function(c)
       awful.client.swap.bydirection('left', c, nil)
-    end),
+    end, { description = 'move client to the left', group = 'client' }),
     awful.key({ mod, shift }, 'l', function(c)
       awful.client.swap.bydirection('right', c, nil)
-    end),
+    end, { description = 'move client to the right', group = 'client' }),
 
     -- swapping (arrows)
     awful.key({ mod, shift }, 'Up', function(c)
       awful.client.swap.bydirection('up', c, nil)
-    end),
+    end, { description = 'move client up', group = 'client' }),
     awful.key({ mod, shift }, 'Down', function(c)
       awful.client.swap.bydirection('down', c, nil)
-    end),
+    end, { description = 'move client down', group = 'client' }),
     awful.key({ mod, shift }, 'Left', function(c)
       awful.client.swap.bydirection('left', c, nil)
-    end),
+    end, { description = 'move client to the left', group = 'client' }),
     awful.key({ mod, shift }, 'Right', function(c)
       awful.client.swap.bydirection('right', c, nil)
-    end),
+    end, { description = 'move client to the right', group = 'client' }),
 
     -- toggle floating
     awful.key({ mod, ctrl }, 'space', function()
@@ -288,13 +302,6 @@ client.connect_signal('request::default_keybindings', function()
     awful.key({ mod }, 'n', function(c)
       c.minimized = true
     end, { description = 'minimize', group = 'client' }),
-
-    awful.key({ mod, ctrl }, 'n', function()
-      local c = awful.client.restore()
-      if c then
-        c:activate { raise = true, context = 'key.unminimize' }
-      end
-    end, { description = 'unminimize', group = 'client' }),
 
     -- on top
     awful.key({ mod }, 'p', function(c)
@@ -314,3 +321,4 @@ client.connect_signal('request::default_keybindings', function()
     end, { description = 'center window', group = 'client' }),
   })
 end)
+-- vim: filetype=lua:expandtab:shiftwidth=2:tabstop=4:softtabstop=2:textwidth=80
