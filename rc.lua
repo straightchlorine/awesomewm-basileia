@@ -1,13 +1,15 @@
 --- rc.lua
--- Initializes each module of the configuration
+-- Initializes each module of the config.
 ---
 
-require('theme')
+require('configuration.startup')
 
 require('configuration')
 
 require('signals')
 
-require('configuration.startup')
+require('theme')
 
 require('widgets')
+
+-- vim: filetype=lua:expandtab:shiftwidth=2:tabstop=4:softtabstop=2:textwidth=80
