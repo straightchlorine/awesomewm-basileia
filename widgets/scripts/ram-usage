@@ -1,7 +1,8 @@
 #!/bin/lua
+
 --- ram-usage
--- Script calculates percentage of ram memory currently used, 
--- based on /proc/meminfo.
+-- Script calculates percentage of ram memory currently used.
+-- (based on /proc/meminfo)
 ---
 
 --- Get % of ram used.
@@ -34,3 +35,5 @@ local function get_ram_usage()
 end
 
 print(get_ram_usage())
+
+-- vim: filetype=lua:expandtab:shiftwidth=2:tabstop=4:softtabstop=2:textwidth=80
