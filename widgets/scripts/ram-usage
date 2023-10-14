@@ -35,5 +35,4 @@ local function get_ram_usage()
 end
 
 print(get_ram_usage())
-
 -- vim: filetype=lua:expandtab:shiftwidth=2:tabstop=4:softtabstop=2:textwidth=80
