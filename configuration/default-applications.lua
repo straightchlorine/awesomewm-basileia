@@ -2,16 +2,16 @@
 -- Provides an object, containing applications which are often used.
 ---
 
-local paths = require('utility.paths')
+local env = require('utility.environment')
 
 local defaults = {
   emulator = 'kitty',
   browser = 'firefox',
   music_player = 'kitty -e ncmpcpp',
-  launcher = paths.rofi,
-  rotate_display = paths.rotation,
-  screenshot_utility = paths.rofi_utils.screenshot_utility,
-  powermenu = paths.rofi_utils.powermenu,
+  launcher = env.rofi.launcher,
+  rotate_display = env.scripts.rotation,
+  screenshot_utility = env.rofi.screenshot_utility,
+  powermenu = env.rofi.powermenu,
   mpd_manager = {
     play_pause = 'mpc toggle',
     previous = 'mpc prev',
@@ -19,7 +19,7 @@ local defaults = {
     volume_up = 'mpc volume +2',
     volume_down = 'mpc volume -2',
     toggle_mute = 'pactl set-sink-mute @DEFAULT_SINK@ toggle',
-    mpd_rofi_popup = paths.rofi_utils.mpd_controller
+    mpd_rofi_popup = env.rofi.mpd_controller
   }
 }
 
