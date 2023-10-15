@@ -3,14 +3,14 @@
 ---
 
 local awful = require('awful')
-local paths = require('utility.paths')
-local eww   = require('utility.eww-integration')
+local env = require('utility.environment')
+local eww = require('utility.eww-integration')
 
 --- Startup function.
 local function autorun ()
-  awful.spawn.with_shell(paths.autorun)
+  awful.spawn.with_shell(env.scripts.autorun)
 
-  -- NOTE: runs only if variable paths.eww is set to true  
+  -- NOTE: runs only if variable env.eww is set to true  
   eww.setup()
 end
 
