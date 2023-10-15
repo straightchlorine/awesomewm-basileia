@@ -6,15 +6,16 @@
 
 display=$1
 rotation=$2
+eww_integration=$3
 
 xrandr --output $1 --rotate $rotation
 
-if [[ $rotation == 'right' ]] || [[ $rotation == 'left' ]]; then
-  $HOME/.cache/yay/eww/target/release/eww close horizontal-bar
-  $HOME/.cache/yay/eww/target/release/eww open vertical-bar
-else
-  $HOME/.cache/yay/eww/target/release/eww close vertical-bar
-  $HOME/.cache/yay/eww/target/release/eww open horizontal-bar
+if [[ $eww_integration == 'true' ]]; then
+  if [[ $rotation == 'right' ]] || [[ $rotation == 'left' ]]; then
+    $HOME/.cache/yay/eww/target/release/eww close horizontal-bar
+    $HOME/.cache/yay/eww/target/release/eww open vertical-bar
+  else
+    $HOME/.cache/yay/eww/target/release/eww close vertical-bar
+    $HOME/.cache/yay/eww/target/release/eww open horizontal-bar
+  fi
 fi
-
-$HOME/.fehbg
