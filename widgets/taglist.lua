@@ -3,7 +3,7 @@
 ---
 
 local awful = require('awful')
-local paths = require('utility.paths')
+local env = require('utility.environment')
 
 --- Get an array of buttons used by taglist widget.
 -- 
@@ -12,7 +12,7 @@ local paths = require('utility.paths')
 --
 -- @return list of buttons for taglist widget
 local function buttons()
-  modkey = paths.modkey
+  modkey = env.modkey
   return {
     awful.button({ }, 1, function(t)
       t:view_only() 
