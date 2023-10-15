@@ -12,13 +12,14 @@ require('awful.hotkeys_popup.keys')
 require('awful.autofocus')
 
 local defaults = require('configuration.default-applications')
+local env = require('utility.environment')
 
 -- aliases
+local mod = env.modkeys
 local ctrl = 'Control'
 local enter = 'Return'
 local shift = 'Shift'
 local alt = 'Mod1'
-local mod = 'Mod4'
 local tab = 'Tab'
 
 --- general keybindings
@@ -199,7 +200,7 @@ awful.keyboard.append_global_keybindings({
 
 -- layout
 awful.keyboard.append_global_keybindings({
-  awful.key({ mod, tab }, 'f', function()
+  awful.key({ mod }, tab, function()
     local layout_function = awful.layout.get(mouse.screen)
     local layout_name = awful.layout.getname(layout_function)
 
