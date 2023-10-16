@@ -15,7 +15,7 @@ local defaults = require('configuration.default-applications')
 local env = require('utility.environment')
 
 -- aliases
-local mod = env.modkeys
+local mod = env.modkey
 local ctrl = 'Control'
 local enter = 'Return'
 local shift = 'Shift'
