@@ -46,7 +46,7 @@ awful.keyboard.append_global_keybindings({
     awful.spawn.with_shell(defaults.rotate_display)
   end, { desciption = 'display rotation', group = 'key' }),
   awful.key({ mod }, 'b', function()
-    require('utility.bar_management').toggle_switch_bars()
+    require('utility.bar-management').toggle_switch_bars()
   end, { desciption = 'switch bars', group = 'key' }),
 })
 
