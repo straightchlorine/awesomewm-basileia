@@ -134,5 +134,21 @@ function integration.setup()
   end
 end
 
+--- Toggle between eww widgets and native awesomewm widgets.
+function integration.toggle()
+  if env.eww.enable_integration then
+    os.execute('pkill -9 eww')
+    require('utility.bar-management').reattach()
+
+    env.eww.enable_integration = false
+    signals()
+  else
+    require('utility.bar-management').detach()
+
+    env.eww.enable_integration = true
+    integration.setup()
+  end
+end
+
 return integration
 -- vim: filetype=lua:expandtab:shiftwidth=2:tabstop=4:softtabstop=2:textwidth=80
