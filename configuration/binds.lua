@@ -48,6 +48,9 @@ awful.keyboard.append_global_keybindings({
   awful.key({ mod }, 'b', function()
     require('utility.bar-management').toggle_switch_bars()
   end, { desciption = 'switch bars', group = 'key' }),
+  awful.key({ mod }, 'e', function()
+    require('utility.eww.integration').toggle()
+  end, { desciption = 'toggle widget setup (eww/native)', group = 'key' })
 })
 
 -- rofi applets
