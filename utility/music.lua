@@ -1,25 +1,29 @@
 --- music.lua
-
+-- Interacting with mpd via mpc.
+---
 local music = {}
 
+local awful = require('awful')
+local env = require('utility.environment')
+
 --- Retruns the state of mpd.
+--
 -- If the caught command is empty, that means
 -- it is not playing thus paused.
 -- @return true when playing
 local function status ()
-  local command = [[mpc status | rg 'playing']]
-  local tty = assert(io.popen(command, 'r'))
-  local output = assert(tty:read('*a'))
-  tty:close()
- 
-  if output == '' then
-    return false
-  else
-    return true
-  end
-end
+  local command = [[mpc status | rg 'playing' > ]] .. env.cache.mpdstatus
 
-local debug = require('utility.deubg')
+  awful.spawn.easy_async_with_shell(command, function()
+    awful.spawn.easy_async_with_shell('cat' .. env.mpd, function(out)
+      if out == '' then
+        awesome.emit_signal('mpd_status', false)
+      else
+        awesome.emit_signal('mpd_status', out)
+      end
+    end)
+  end)
+end
 
 --- Current track name.
 -- Probes for the name of the track, removes [video-id].mp3
