@@ -66,47 +66,55 @@ local function log_active(tag)
   files.log(path, tag.name)
 end
 
+--- Anonymous function used for logging.
+local full_log = function (tag)
+  log_active(tag)
+  log_overview()
+end
+
 --- Log state of tags every time tag is selected.
+--
+-- Depending on the value of the env.eww.enable_integration (true/false) it
+-- either disconnects the signal(when false, i.e. eww needs to turn off) or
+-- connects it (when true).
 --
 -- Calls both log_overview() and log_active() each time tag is selected in order
 -- to mantain up to date information for eww widgets.
+--
+-- @param t tag to work on
+-- @param flag connect signal if true, disconnect if false.
 local function tag_selection(t)
-  t:connect_signal('property::selected', function(tag)
-    log_active(tag)
-    log_overview()
-  end)
+  if not env.eww.enable_integration then
+    t:disconnect_signal('property:selected', full_log)
+  else
+    t:connect_signal('property::selected', full_log)
+  end
 end
 
 --- Log state of tags every time new client is created (window open).
 --
+-- Depending on the value of the env.eww.enable_integration (true/false) it
+-- either disconnects the signal(when false, i.e. eww needs to turn off) or
+-- connects it (when true).
+--
 -- Calls both log_overview() and log_active() each time tag is selected in order
 -- to mantain up to date information for eww widgets.
 local function tag_active(t)
-  t:connect_signal('tagged', function(tag)
-    log_active(tag)
-    log_overview()
-  end)
-end
-
---- Kill eww processes with restart.
-local function kill()
-  if env.eww.enable_integration then
-    awesome.connect_signal('exit', function ()
-      os.execute('pkill -9 eww')
-    end)
+  if not env.eww.enable_integration then
+    t:disconnect_signal('tagged', full_log)
+  else
+    t:connect_signal('tagged', full_log)
   end
 end
 
 --- Connect required signals to each tag during initial tag definition.
 local function signals()
-  screen.connect_signal('request::desktop_decoration', function(s)
+  for s in screen do
     for _, tag in ipairs(s.tags) do
       tag_selection(tag)
       tag_active(tag)
     end
-  end)
-
-  kill()
+  end
 end
 
 local integration = {}
