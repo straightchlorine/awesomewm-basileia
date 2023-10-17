@@ -3,18 +3,21 @@
 ---
 
 local bars = require('widgets.bars')
+local env = require('utility.environment')
 
 --- Switch bars between displays.
 --
 -- @param screen_a screen with the main_bar
 -- @param screen_b screen meant to have main_bar after swap
 local function switch (screen_a, screen_b)
+
   -- easiest way to make sure that taglists work properly
   -- is to simply initialize them again
   screen_a.bar:remove()
   screen_b.bar:remove()
-  bars.main_bar(screen_b, 'Mod4')
-  bars.side_bar(screen_a, 'Mod4')
+  bars.main_bar(screen_b, env.modkey)
+  bars.side_bar(screen_a, env.modkey)
+
 end
 
 local awful = require('awful')
@@ -24,8 +27,10 @@ local awful = require('awful')
 -- Base state, that is when main_bar is on the primary display
 -- and side_bar is on the secondary display.
 local function switch_bars ()
+
   switch(screen[1], screen[2])
   return true
+
 end
 
 --- Restore bars to base state
@@ -33,8 +38,10 @@ end
 -- Switching the bars back, i.e. moving main_bar from the secondary display
 -- to the primary one, and vice versa.
 local function restore_bars ()
+
   switch(screen[2], screen[1])
   return false
+
 end
 
 local management = {}
@@ -60,8 +67,10 @@ end
 -- @param screen screen object being verified
 -- @return true if orientation of given screen is vertical
 function management.is_vertical (screen)
+
   local screen_geometry = screen.geometry
   return screen_geometry.height > screen_geometry.width
+
 end
 
 return management
