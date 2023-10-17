@@ -1,5 +1,5 @@
---- tag-overview.lua
--- Parses state of screens and tags into JSON, which can be read by eww.
+--- overview.lua
+-- Parse state of screens and tags into JSON, which can be read by eww.
 ---
 
 local awful = require('awful')
@@ -20,13 +20,15 @@ local function count_clients(tag)
   return count
 end
 
+local overview = {}
+
 --- Generate JSON describing each workspace.
 -- Iterates through both the screens and tags, with information
 -- about the screen, tag and number of clients in a particular
 -- workspace.
 --
 -- @return JSON file with states of all the workspaces
-function get_workspaces()
+function overview.tags()
   -- final JSON output
   local json = '{"display":[%s]}'
 
@@ -49,5 +51,7 @@ function get_workspaces()
 
   return string.format(json, displays)
 end
+
+return overview
 
 -- vim: filetype=lua:expandtab:shiftwidth=2:tabstop=4:softtabstop=2:textwidth=80
