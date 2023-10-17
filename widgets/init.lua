@@ -6,22 +6,27 @@ local bars = require('widgets.bars')
 local env = require('utility.environment')
 local eww = require('utility.eww.integration')
 
---- Provides appropriate to the current configuration widgets.
+--- Attach native awesomewm widgets.
+local function native()
+  screen.connect_signal('request::desktop_decoration', function(s)
+    if s.index == 1 then
+      bars.main_bar(s, env.modkey)
+    else
+      bars.side_bar(s, env.modkey)
+    end
+  end)
+end
+
+--- Provide appropriate widgets.
 --
 -- If the eww integration is desired i.e. env.enable_integration is true, then
 -- eww widgets are provided. Otherwise, standard awesomewm widget configuration
 -- is utilised.
 local function widgets()
-  if  env.eww.enable_integration then
+  if env.eww.enable_integration then
     eww.setup()
   else
-    screen.connect_signal('request::desktop_decoration', function(s)
-      if s.index == 1 then
-        bars.main_bar(s, env.modkey)
-      else
-        bars.side_bar(s, env.modkey)
-      end
-    end)
+    native()
   end
 end
 
