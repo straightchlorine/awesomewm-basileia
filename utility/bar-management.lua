@@ -73,5 +73,27 @@ function management.is_vertical (screen)
 
 end
 
+--- Removes bars from every connected screen.
+--
+-- Utilised when switching to eww integrated mode.
+function management.detach()
+  for s in screen do
+    s.bar:remove()
+  end
+end
+
+--- Reattaches bars to every connected screen.
+--
+-- Utilised when switching back to native mode.
+function management.reattach()
+  for s in screen do
+    if s.index == 1 then
+      bars.main_bar(s, env.modkey)
+    else
+      bars.side_bar(s, env.modkey)
+    end  
+  end
+end
+
 return management
 -- vim: filetype=lua:expandtab:shiftwidth=2:tabstop=4:softtabstop=2:textwidth=80
