@@ -32,6 +32,9 @@ env.scripts = {}
 --- Path to the autorun script.
 env.scripts.autorun = configuration_scripts .. 'autorun'
 
+--- Path to run-eww script.
+env.scripts.run_eww = configuration_scripts .. 'run-eww'
+
 -- Path to the screen responsible for display rotation.
 env.scripts.rotation = configuration_scripts .. 'toggle_rotation ' .. tostring(env.eww)
 

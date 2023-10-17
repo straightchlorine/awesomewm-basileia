@@ -1,0 +1,18 @@
+#!/bin/bash
+
+## run-eww
+# Simple utility, called when eww integration is required.
+##
+
+run_eww() {
+  display_count=$(xrandr -q | grep -w 'connected' | wc -l)
+  if [[ $display_count -gt 1 ]]; then
+    # multihead setup
+    $HOME/.cache/yay/eww/target/release/eww open horizontal-bar
+    $HOME/.cache/yay/eww/target/release/eww open-many side-workspaces side-clock
+  else
+    $HOME/.cache/yay/eww/target/release/eww open horizontal-bar
+  fi
+}
+
+run_eww
