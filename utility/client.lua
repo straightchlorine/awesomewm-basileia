@@ -6,17 +6,13 @@ local dpi = require('beautiful.xresources').apply_dpi
 local target = { client = client, mouse = mouse }
 local resize = { amount = dpi(10), factor = 0.05 }
 
-local naughty = require('naughty')
-
-function notifyDebug (text)
-    naughty.notify({ preset = naughty.config.presets.normal,
-                     title = "~technical notification~",
-                     text = text})
-end
-
 local client = {}
 
-function  client.resize(c, direction)
+--- Auxiliary function for resizing each client by direction.
+--
+-- @param c client to resize
+-- @param direction direction in which client should be resized
+function client.resize(c, direction)
   if c and c.floating or awful.layout.get(target.mouse.screen) == awful.layout.suit.floating then
     if direction == 'up' then
       c:relative_move(0, 0, 0, -resize.amount)
@@ -40,6 +36,9 @@ function  client.resize(c, direction)
   end
 end
 
+--- Centers the client on the screen.
+--
+-- @param c client
 function client.center(c)
     return gears.timer.delayed_call(function ()
         awful.placement.centered(c, { honor_padding = true, honor_workarea = true })
@@ -47,3 +46,4 @@ function client.center(c)
 end
 
 return client
+-- vim: filetype=lua:expandtab:shiftwidth=2:tabstop=4:softtabstop=2:textwidth=80
