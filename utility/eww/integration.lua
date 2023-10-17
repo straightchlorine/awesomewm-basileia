@@ -88,6 +88,15 @@ local function tag_active(t)
   end)
 end
 
+--- Kill eww processes with restart.
+local function kill()
+  if env.eww.enable_integration then
+    awesome.connect_signal('exit', function ()
+      os.execute('pkill -9 eww')
+    end)
+  end
+end
+
 --- Connect required signals to each tag during initial tag definition.
 local function signals()
   screen.connect_signal('request::desktop_decoration', function(s)
@@ -96,6 +105,8 @@ local function signals()
       tag_active(tag)
     end
   end)
+
+  kill()
 end
 
 local integration = {}
