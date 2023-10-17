@@ -2,6 +2,8 @@
 -- Widgets containing basic information such as time and date.
 ---
 
+local env = require('utility.environment')
+
 local awful = require('awful')
 local wibox = require('wibox')
 
@@ -21,22 +23,15 @@ function circumstances.time_and_date ()
 
 end
 
--- path to the weather script
-local weather_script = os.getenv('HOME') .. '/.config/awesome/widgets/scripts/weather --prompt'
-
 --- Get widget displaying current weather conditions.
---
--- The script path is given in the weather_script variable, by default 
--- pointing to [[ widgets/scripts/weather -- prompt ]] in the awesomewm
--- configuration directory.
 --
 -- Example output:
 --   14°C
 --
 -- @return awful.widget.watch with information about current weather
-function circumstances.weather ()
+function circumstances.weather()
 
-  local weather = awful.widget.watch(weather_script, 180)
+  local weather = awful.widget.watch(env.scripts.widgets.weather, 180)
   weather.forced_width = 50
   return weather
 
@@ -66,7 +61,7 @@ function circumstances.status(s)
     wibox.widget {
       widget = wibox.widget.separator,
       thickness = 0,
-      forced_width = require('utility.bar_management').is_vertical(s) and 90 or 710
+      forced_width = require('utility.bar-management').is_vertical(s) and 90 or 710
     },
     circumstances.time_and_date(),
     circumstances.weather(),
