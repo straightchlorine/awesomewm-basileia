@@ -1,12 +1,24 @@
 --- music.lua
 -- Interacting with mpd via mpc.
 ---
+
 local music = {}
 
 local awful = require('awful')
 local env = require('utility.environment')
 
---- Retruns the state of mpd.
+--- When 'mpd_status' is emitted, write status to cache.
+awesome.connect_signal('mpd_status', function ()
+  local command = [[mpc status | rg 'playing' > ]] .. env.cache.mpd_status
+  awful.spawn.easy_async_with_shell(command)
+end )
+
+--- When 'mpd_current' is emitted, current track is written to chache.
+awesome.connect_signal('mpd_current', function ()
+  local command = [[ mpc current --wait | sed 's/\[.*// ' > ]] .. env.cache.mpd_current
+  awful.spawn.easy_async_with_shell(command)
+end)
+
 --
 -- If the caught command is empty, that means
 -- it is not playing thus paused.
