@@ -169,7 +169,6 @@ client.connect_signal('request::default_mousebindings', function()
 end)
 
 -- hardware
-local mpd = require('utility.music')
 awful.keyboard.append_global_keybindings({
   awful.key({}, 'XF86MonBrightnessUp', function()
     awful.spawn('brightnessctl set 5%+ -q', false)
@@ -189,15 +188,12 @@ awful.keyboard.append_global_keybindings({
 
   awful.key({}, 'XF86AudioPlay', function()
     awful.spawn.with_shell(defaults.mpd_manager.play_pause)
-    mpd.notify()
   end, { description = 'play/pause', group = 'music' }),
   awful.key({}, 'XF86AudioPrev', function()
     awful.spawn.with_shell(defaults.mpd_manager.previous)
-    mpd.notify()
   end, { description = 'previous', group = 'music' }),
   awful.key({}, 'XF86AudioNext', function()
     awful.spawn.with_shell(defaults.mpd_manager.next)
-    mpd.notify()
   end, { description = 'next', group = 'music' }),
 })
 
