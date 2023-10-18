@@ -13,10 +13,4 @@ end)
 client.connect_signal('manage', function(c)
     awful.ewmh.activate(c, 'client')
 end)
-
---- Handling request to display currently played song.
-local mpd = require('utility.music')
-
-awesome.connect_signal('notify_track_played', function()
-  mpd.notify()
-end)
+-- vim: filetype=lua:expandtab:shiftwidth=2:tabstop=4:softtabstop=2:textwidth=80
