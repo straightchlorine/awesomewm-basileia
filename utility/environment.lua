@@ -51,7 +51,10 @@ env.scripts.widgets.cpu = widget_scripts .. 'cpu-usage'
 env.scripts.widgets.ram = widget_scripts .. 'ram-usage'
 
 --- Path to network-sample script.
-env.scripts.widgets.net = widget_scripts .. 'network-sample'
+env.scripts.widgets.net_rx = widget_scripts .. 'network-sample --rx'
+
+--- Path to network-sample script.
+env.scripts.widgets.net_tx = widget_scripts .. 'network-sample --tx'
 
 --- Path to weather script.
 env.scripts.widgets.weather = widget_scripts .. 'weather --prompt'
