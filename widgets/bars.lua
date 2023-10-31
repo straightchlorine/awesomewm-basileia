@@ -8,6 +8,9 @@ local wibox = require('wibox')
 local system = require('widgets.system')
 local circumstances = require('widgets.circumstances')
 
+--- Module defining main and side bars.
+--
+-- @module widgets.bars
 local bars = {}
 
 --- Attach new main bar to the  screen.
@@ -62,13 +65,8 @@ function bars.side_bar (s)
     position = 'top',
     screen = s,
     widget = {
-      layout = wibox.layout.align.horizontal,
       {
         circumstances.status(),
-        layout = wibox.layout.align.horizontal
-      },
-      {
-        s.taglist,
         layout = wibox.layout.align.horizontal
       },
       wibox.widget {
@@ -78,11 +76,13 @@ function bars.side_bar (s)
       {
         s.taglist,
         layout = wibox.layout.align.horizontal
-      }
+      },
+      layout = wibox.layout.align.horizontal,
     }
   }
 
 end
 
 return bars
+
 -- vim: filetype=lua:expandtab:shiftwidth=2:tabstop=4:softtabstop=2:textwidth=80
