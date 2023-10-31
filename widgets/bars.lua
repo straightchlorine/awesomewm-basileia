@@ -16,31 +16,33 @@ local bars = {}
 -- transmitted through network interface, how much of root partition is 
 -- occupied (in %), ram usage (in %) and cpu usage(in %).
 --
--- @param s screen object to attach to
--- @param modkey usually windows key
-function bars.main_bar (s, modkey)
+-- @tparam screen s object to attach to
+function bars.main_bar (s)
 
   -- attach the taglist to the screen
-  require('widgets.taglist').attach(s, modkey)
+  require('widgets.taglist').attach(s)
 
   -- attach bar to the screen
   s.bar = awful.wibar {
     position = 'top',
     screen = s,
     widget = {
-      layout = wibox.layout.align.horizontal,
+      halign = 'center',
+      expand = 'none',
       {
         s.taglist,
+        circumstances.music(),
         layout = wibox.layout.align.horizontal
       },
       {
-        circumstances.status(s),
+        circumstances.status(),
         layout = wibox.layout.align.horizontal
       },
       {
         system.status(),
         layout = wibox.layout.align.horizontal
-      }
+      },
+      layout = wibox.layout.align.horizontal,
     }
   }
 
@@ -49,12 +51,11 @@ end
 --- Attach new side bar to the screen.
 -- It displays taglist, current time, date and weather.
 --
--- @param s screen object to attach to
--- @param modkey usually windows key
-function bars.side_bar (s, modkey)
+-- @tparam screen s object to attach to
+function bars.side_bar (s)
 
   -- attach the taglist to the screen
-  require('widgets.taglist').attach(s, modkey)
+  require('widgets.taglist').attach(s)
 
   -- attach bar to the screen
   s.bar = awful.wibar {
@@ -62,6 +63,10 @@ function bars.side_bar (s, modkey)
     screen = s,
     widget = {
       layout = wibox.layout.align.horizontal,
+      {
+        circumstances.status(),
+        layout = wibox.layout.align.horizontal
+      },
       {
         s.taglist,
         layout = wibox.layout.align.horizontal
@@ -71,7 +76,7 @@ function bars.side_bar (s, modkey)
         thickness = 0,
       },
       {
-        circumstances.status(s),
+        s.taglist,
         layout = wibox.layout.align.horizontal
       }
     }
