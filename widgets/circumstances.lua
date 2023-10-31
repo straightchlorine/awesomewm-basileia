@@ -7,6 +7,10 @@ local env = require('utility.environment')
 local awful = require('awful')
 local wibox = require('wibox')
 
+--- Module containing methods for various widgets providing information about
+--- things such as time, date, weather, etc.
+--
+-- @module widgets.circumstances
 local circumstances = {}
 
 --- Get widget displaying time and date.
@@ -14,7 +18,7 @@ local circumstances = {}
 -- For example:
 --  Friday, 22 Septempber 19:04:50
 --
--- @return wibox.widget.textclock providing date and time
+-- @treturn wibox.widget.textclock providing date and time
 function circumstances.time_and_date ()
 
   local time_and_date = wibox.widget.textclock('%A, %d %B %T', 1)
@@ -28,7 +32,7 @@ end
 -- Example output:
 --   14°C
 --
--- @return awful.widget.watch with information about current weather
+-- @treturn awful.widget.watch with information about current weather
 function circumstances.weather()
 
   local weather = awful.widget.watch(env.scripts.widgets.weather, 180)
@@ -37,34 +41,49 @@ function circumstances.weather()
 
 end
 
---- Get widget displaying date, time and weather conditions
+--- Get widget displaying currently played by mpd song.
+--
+-- @treturn wibox.widget.textbox object containing currently played song
+function circumstances.mpd()
+
+  return require('widgets.mpd')
+
+end
+
+--- Get widget displaying date, time and weather conditions.
 --
 -- Essentialy combines time_and_date() and weather() widgets, while adding
 -- a separator before both of them, so the widget looks more or less centered.
 --
--- In order to see whether screen in question is vertically or horizontally
--- aligned method from utility/bar_management is used.
---
--- Note: that only 1920x1080 and 1080x1920 resolutions are taken into account.
---
--- TODO: respectable method, which calculates how big separator should be
--- regardless of the resolution.
---
 -- Output would be similar to the following:
 --  Friday, 22 Septempber 19:04:50      14°C
 --
--- @param s screen object in order to determine its orientation
--- @return awful.widget object containing time and date along with weather
-function circumstances.status(s)
+-- @treturn wibox.widget object containing time and date along with weather
+function circumstances.status()
+
+  return {
+    circumstances.time_and_date(),
+    circumstances.weather(),
+    layout = wibox.layout.align.horizontal,
+  }
+
+end
+
+--- Get widget displaying currently played by mpd song.
+--
+-- Uses circumstances.mpd() to get the widget and adds small separator on the
+-- widget's left side.
+--
+-- @treturn wibox.widget object containing currently played song
+function circumstances.music()
 
   return {
     wibox.widget {
       widget = wibox.widget.separator,
       thickness = 0,
-      forced_width = require('utility.bar-management').is_vertical(s) and 90 or 710
+      forced_width = 50,
     },
-    circumstances.time_and_date(),
-    circumstances.weather(),
+    circumstances.mpd(),
     layout = wibox.layout.align.horizontal,
   }
 
