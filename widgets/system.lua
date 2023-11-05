@@ -4,22 +4,18 @@
 ---
 
 local awful = require('awful')
+local env = require('utility.environment')
 
+--- Module contains widgets with information about current state of the system.
+-- @module widgets.system
 local system = {}
-
--- path to the cpu_usage script
-local cpu_script = os.getenv('HOME') .. '/.config/awesome/widgets/scripts/cpu-usage'
--- path to the ram_usage script
-local ram_script = os.getenv('HOME') .. '/.config/awesome/widgets/scripts/ram-usage'
--- path to the network-sample script
-local net_script = os.getenv('HOME') .. '/.config/awesome/widgets/scripts/network-sample'
 
 --- Return awful.widget object containing usage of cpu.
 --
 -- @return awful.widget
 function system.cpu()
 
-  local cpu = awful.widget.watch(cpu_script, 1, function (widget, stdout)
+  local cpu = awful.widget.watch(env.scripts.widgets.cpu, 1, function (widget, stdout)
     for line in stdout:gmatch('%d+%.%d+') do
       widget:set_text('  ' .. line .. '%')
     end
@@ -34,7 +30,7 @@ end
 -- @return awful.widget
 function system.ram()
 
-  local ram = awful.widget.watch(ram_script, 1, function (widget, stdout)
+  local ram = awful.widget.watch(env.scripts.widgets.ram, 1, function (widget, stdout)
     for line in stdout:gmatch('%d+%.%d+') do
       widget:set_text('  ' .. line .. '%')
     end
@@ -85,7 +81,7 @@ end
 -- @return awful.widget
 function system.net_rx()
 
-  local rx = awful.widget.watch(net_script .. ' --rx', 1, function (widget, stdout)
+  local rx = awful.widget.watch(env.scripts.widgets.net_rx, 1, function (widget, stdout)
     widget:set_text(' ' .. stdout)
     widget.forced_width = 120
   end)
@@ -99,7 +95,7 @@ end
 -- @return awful.widget
 function system.net_tx()
 
-  local tx = awful.widget.watch(net_script .. ' --tx', 1, function (widget, stdout)
+  local tx = awful.widget.watch(env.scripts.widgets.net_tx, 1, function (widget, stdout)
     widget:set_text(' ' .. stdout)
     widget.forced_width = 120
   end)
