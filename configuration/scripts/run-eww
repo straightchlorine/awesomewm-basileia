@@ -4,14 +4,16 @@
 # Simple utility, called when eww integration is required.
 ##
 
+eww_path=$HOME/.local/share/eww/target/release/eww
+
 run_eww() {
   display_count=$(xrandr -q | grep -w 'connected' | wc -l)
   if [[ $display_count -gt 1 ]]; then
     # multihead setup
-    $HOME/.cache/yay/eww/target/release/eww open horizontal-bar
-    $HOME/.cache/yay/eww/target/release/eww open-many side-workspaces side-clock
+    $eww_path open horizontal-bar
+    $eww_path open-many side-workspaces side-clock
   else
-    $HOME/.cache/yay/eww/target/release/eww open horizontal-bar
+    $eww_path open horizontal-bar
   fi
 }
 
