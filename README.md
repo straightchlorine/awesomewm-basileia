@@ -76,7 +76,7 @@
 
 Basileia is a simple configuration for AwesomeWM.
 
-It's main objective is to keep things as simple as possible, so it's easy to change, add and personalise any aspect of the environment.
+The idea is to keep the configuration simple to make further configuration very quick and easy.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -102,8 +102,7 @@ via
 <a name="installation"></a>
 ### Installation
 
-Installation is very straightforward, the only thing you need to do is to clone this repository to `~/.config/awesome`
-folder:
+After installing the required pieces of software, you just need to clone this repository to `~/.config/awesome`.
    ```sh
    git clone https://github.com/straightchlorine/awesomewm-basileia.git ~/.config/awesome
    ```
@@ -168,6 +167,7 @@ The goal of the configuration is to keep things simple, so it's easy to configur
 
 That being said, if you want to change anything, I strongly recommend testing the configuration before
 restarting the environment.
+
 
 In order to do that you can use `Xephyr` --- a nested X server, which allows you to run your configuration 
 in a separate X server and ensure that everything is correct without risking stability of your currently running
