@@ -1,192 +1,243 @@
 #!/bin/bash
 
-# credentials
-api-id() {
-    cat $HOME/.cache/weather/weather-credentials/key
+### weather
+# Get the information from OpenWeather API via curl query.
+# Each value is stored within environmental variable with OPENWEATHER_ prefix.
+#
+# Author: Piotr Krzysztof Lis - github.com/straightchlorine
+###
+
+# TODO: Maybe implement in lua for consistency, not a priority though
+
+# Help message
+show_help() {
+    cat << EOF
+Usage: $0 {--status|--data|--temp|--temp-felt|--temp-max|--temp-min|--pressure|--icon|--colour|--country|--city|--description|--humidity|--wind-speed|--wind-degree|--visibility|--help}
+
+Options:
+  --status       Display the weather icon and felt temperature.
+  --data         Display detailed weather information including country, city, description, temperature, felt temperature, max/min temperature, pressure, humidity, wind speed, wind degree, and visibility.
+  --temp         Display the temperature.
+  --temp-felt    Display the felt temperature.
+  --temp-max     Display the maximum temperature.
+  --temp-min     Display the minimum temperature.
+  --pressure     Display the pressure.
+  --icon         Display the weather icon.
+  --colour       Display the weather colour.
+  --country      Display the country.
+  --city         Display the city.
+  --description  Display the weather description.
+  --humidity     Display the humidity.
+  --wind-speed   Display the wind speed.
+  --wind-degree  Display the wind degree.
+  --visibility   Display the visibility.
+  --help         Display this help message.
+
+Author: Piotr Krzysztof Lis - github.com/straightchlorine
+EOF
 }
 
-city-id() {
-    cat $HOME/.cache/weather/weather-credentials/city
-}
-
-
-# cache folders
-## data
-cache_directory="$HOME/.cache/weather"
-cache_weather_city=${cache_directory}/weather-city
-cache_weather_status=${cache_directory}/weather-status
-cache_weather_temperature=${cache_directory}/weather-temperature
-cache_weather_temperature_full=${cache_directory}/weather-temperature-full
-cache_weather_felt_temperature=${cache_directory}/weather-felt-temperature
-cache_weather_pressure=${cache_directory}/weather-pressure
-cache_weather_humidity=${cache_directory}/weather-humidity
-cache_weather_sunrise=${cache_directory}/weather-sunrise
-cache_weather_sunset=${cache_directory}/weather-sunset
-cache_weather_wind_speed=${cache_directory}/weather-wind-speed
-
-## cosmetics
-cache_weather_quote=${cache_directory}/weather-quote
-cache_weather_colour=${cache_directory}/weather-colour
-cache_weather_icon=${cache_directory}/weather-icon
-
-# creting cache cache directory
-if [[ ! -d "$cache_directory" ]]; then
-    mkdir -p ${cache_directory}
-    cd ${cache_directory}
-    touch weather-city
-    touch weather-status
-    touch weather-temperature-full
-    touch weather-felt-temperature
-    touch weather-pressure
-    touch weather-humidity
-    touch weather-sunrise
-    touch weather-sunset
-    touch weather-wind-speed
-    touch weather-quote
-    touch weather-colour
-    touch weather-icon
-fi
-
-# openweather credentials
-KEY=$(api-id)
-CITY_ID=$(city-id)
-
-# extracting the data from the openweather api
-extract_weather() {
-    api_url="curl -sf 'api.openweathermap.org/data/2.5/weather?APPID=$KEY&id=$CITY_ID&units=metric'"
+# Call the OpenWeather API
+#
+# Returns: JSON response from the OpenWeather API
+api_call() {
+    api_url="curl -sf 'api.openweathermap.org/data/2.5/weather?APPID=$WEATHER_CREDENTIALS_KEY&id=$WEATHER_CREDENTIALS_CITY&units=metric'"
     api_output=$(eval $api_url)
-
     echo ${api_output}
+}
 
-    if [ ! -z "$api_output" ]; then
-        #filtering needed data out of the response
-        weather_city=$(echo $api_output | jq '.name' | sed 's/"//g')
-        weather_temperature=$(echo $api_output | jq '.main.temp' | cut -d '.' -f 1)
-        weather_temperature_full=$(echo $api_output | jq '.main.temp')
-        weather_felt_temp=$(echo $api_output | jq '.main.feels_like')
-        weather_pressure=$(echo $api_output | jq '.main.pressure')
-        weather_humidity=$(echo $api_output | jq '.main.humidity')
-        weather_wind_speed=$(echo $api_output | jq '.wind.speed')
-        weather_icon=$(echo $api_output | jq -r '.weather[].icon' | head -1)
-        weather_descrption=$(echo $api_output | jq -r '.weather[].description' | head -1)
+# Process the JSON reponse into the environmental variables.
+#
+# Returns: 1 if failed, 0 if successful
+export_var() {
+    json=$(api_call)
 
-        # setting the icons and adding the quotes
-        if [ "$weather_icon" == "50d"  ]; then
-			weather_icon=""
-			weather_quote="Looks like it's going to be a misty day..."
-			weather_colour="#7c6f64"
-		elif [ "$weather_icon" == "50n"  ]; then
-			weather_icon=""
-			weather_quote="Forecast says the night will be misty..."
-			weather_colour="#7c6f64"
-		elif [ "$weather_icon" == "01d"  ]; then
-			weather_icon=""
-			weather_quote="It's going to be sunny... For now..."
-			weather_colour="#ffea00"
-		elif [ "$weather_icon" == "01n"  ]; then
-			weather_icon=""
-			weather_quote="The night's clear... Look at the stars..."
-			weather_colour="#fbf1c7"
-		elif [ "$weather_icon" == "02d"  ]; then
-			weather_icon=" "
-			weather_quote="It's quite cloudy..."
-			weather_colour="#83a598"
-		elif [ "$weather_icon" == "02n"  ]; then
-			weather_icon=" "
-			weather_quote="The night is quite cloudy... Stars might be in hiding..."
-			weather_colour="#83a598"
-		elif [ "$weather_icon" == "03d"  ]; then
-			weather_icon=" "
-			weather_quote="It's quite cloudy today..."
-			weather_colour="#83a598"
-		elif [ "$weather_icon" == "03n"  ]; then
-			weather_icon=" "
-			weather_quote="It's a cloudy night... The stars probably won't show themselves..."
-			weather_colour="#83a598"
-		elif [ "$weather_icon" == "04d"  ]; then
-			weather_icon=""
-			weather_quote="It's quite cloudy today..."
-			weather_colour="#458588"
-		elif [ "$weather_icon" == "04n"  ]; then
-			weather_icon=""
-			weather_quote="It's a cloudy night... The stars probably won't show themselves..."
-			weather_colour="#458588"
-		elif [ "$weather_icon" == "09d"  ]; then
-			weather_icon=""
-			weather_quote="It's a rainy day..."
-			weather_colour="#427b58"
-		elif [ "$weather_icon" == "09n"  ]; then
-			weather_icon=""
-			weather_quote="It will rain tonight..."
-			weather_colour="#427b58"
-		elif [ "$weather_icon" == "10d"  ]; then
-			weather_icon=""
-			weather_quote="It's a rainy day..."
-			weather_colour="#689d6a"
-		elif [ "$weather_icon" == "10n"  ]; then
-			weather_icon=""
-			weather_quote="It will rain tonight..."
-			weather_colour="#689d6a"
-		elif [ "$weather_icon" == "11d"  ]; then
-			weather_icon=""
-			weather_quote="Storm will come today..."
-			weather_colour="#fabd2f"
-		elif [ "$weather_icon" == "11n"  ]; then
-			weather_icon=""
-			weather_quote="Stormy night ahead..."
-			weather_colour="#fabd2f"
-		elif [ "$weather_icon" == "13d"  ]; then
-			weather_icon=""
-			weather_quote="It's going to snow today..."
-			weather_colour="#fbf1c7"
-		elif [ "$weather_icon" == "13n"  ]; then
-			weather_icon=""
-			weather_quote="It's going to snow tonight..."
-			weather_colour="#fbf1c7"
-		else 
-			weather_icon=""
-			weather_quote="Quite a strange day..."
-			weather_colour="#fb4934"
-		fi
+    if [ ! -z "$json" ]; then
 
-        # saving the data to the cache
-        echo "$weather_city" > ${cache_weather_city}
-        echo "$weather_temperature" > ${cache_weather_temperature}
-        echo "$weather_temperature_full" > ${cache_weather_temperature_full}
-        echo "$weather_felt_temp" > ${cache_weather_felt_temperature}
-        echo "$weather_pressure" > ${cache_weather_pressure}
-        echo "$weather_humidity" > ${cache_weather_humidity}
-        echo "$weather_wind_speed" > ${cache_weather_wind_speed}
-        echo "$weather_icon" > ${cache_weather_icon}
-        echo "$weather_descrption" > ${cache_weather_status}
-        echo "$weather_colour" > ${cache_weather_colour}
-        echo "$weather_quote" > ${cache_weather_quote}
+        # cosmetics
+        export OPENWEATHER_COUNTRY=$(echo "$json" | jq ".sys.country")
+        export OPENWEATHER_CITY=$(echo "$json" | jq ".name")
+        export OPENWEATHER_DESCRIPTION=$(echo "$json" | jq -r ".weather[0].description")
+        export OPENWEATHER_ICON=$(echo "$json" | jq -r ".weather[0].icon")
+
+        # data
+        export OPENWEATHER_TEMPERATURE=$(echo "$json" | jq ".main.temp")
+        export OPENWEATHER_TEMPERATURE_FELT=$(echo "$json" | jq ".main.feels_like")
+        export OPENWEATHER_TEMPERATURE_MIN=$(echo "$json" | jq ".main.temp_min")
+        export OPENWEATHER_TEMPERATURE_MAX=$(echo "$json" | jq ".main.temp_max")
+        export OPENWEATHER_PRESSURE=$(echo "$json" | jq ".main.pressure")
+        export OPENWEATHER_HUMIDITY=$(echo "$json" | jq ".main.humidity")
+
+        export OPENWEATHER_WIND_SPEED=$(echo "$json" | jq ".wind.speed")
+        export OPENWEATHER_WIND_DEGREE=$(echo "$json" | jq ".wind.deg")
+
+        export OPENWEATHER_VISIBILITY=$(echo "$json" | jq ".visibility")
+
+        case $OPENWEATHER_ICON in
+
+            "50d")
+                export OPENWEATHER_ICON=""
+                export OPENWEATHER_COLOR="#7c6f64"
+                ;;
+            "50n")
+                export OPENWEATHER_ICON=""
+                export OPENWEATHER_COLOR="#7c6f64"
+                ;;
+            "01d")
+                export OPENWEATHER_ICON=""
+                export OPENWEATHER_COLOR="#ffea00"
+                ;;
+            "01n")
+                export OPENWEATHER_ICON=""
+                export OPENWEATHER_COLOR="#fbf1c7"
+                ;;
+            "02d" | "03d" | "04d")
+                export OPENWEATHER_ICON=""
+                export OPENWEATHER_COLOR="#83a598"
+                ;;
+            "02n" | "03n" | "04n")
+                export OPENWEATHER_ICON=""
+                export OPENWEATHER_COLOR="#83a598"
+                ;;
+            "09d")
+                export OPENWEATHER_ICON=""
+                export OPENWEATHER_COLOR="#427b58"
+                ;;
+            "09n")
+                export OPENWEATHER_ICON=""
+                export OPENWEATHER_COLOR="#427b58"
+                ;;
+            "10d")
+                export OPENWEATHER_ICON=""
+                export OPENWEATHER_COLOR="#689d6a"
+                ;;
+            "10n")
+                export OPENWEATHER_ICON=""
+                export OPENWEATHER_COLOR="#689d6a"
+                ;;
+            "11d")
+                export OPENWEATHER_ICON=""
+                export OPENWEATHER_COLOR="#fabd2f"
+                ;;
+            "11n")
+                export OPENWEATHER_ICON=""
+                export OPENWEATHER_COLOR="#fabd2f"
+                ;;
+            "13d")
+                export OPENWEATHER_ICON=""
+                export OPENWEATHER_COLOR="#fbf1c7"
+                ;;
+            "13n")
+                export OPENWEATHER_ICON=""
+                export OPENWEATHER_COLOR="#fbf1c7"
+                ;;
+            *)
+                export OPENWEATHER_ICON=""
+                export OPENWEATHER_COLOR="#fb4934"
+                ;;
+
+        esac
     else
-        echo "no weather." > ${cache_weather_status}
-        echo "" > ${cache_weather_icon}
-        echo -e "No weather : (" > ${cache_weather_quote}
-        echo "" > ${cache_weather_temperature}
-        echo "#32302f" > ${cache_weather_colour}
+
+        export OPENWEATHER_COUNTRY=""
+        export OPENWEATHER_CITY=""
+        export OPENWEATHER_DESCRIPTION=""
+
+        export OPENWEATHER_COLOR="#f93822"
+        export OPENWEATHER_ICON=""
+
+        export OPENWEATHER_TEMPERATURE=""
+        export OPENWEATHER_TEMPERATURE_FELT=""
+        export OPENWEATHER_TEMPERATURE_MAX=""
+        export OPENWEATHER_TEMPERATURE_MIN=""
+
+        export OPENWEATHER_PRESSURE=""
+        export OPENWEATHER_HUMIDITY=""
+
+        export OPENWEATHER_WIND_SPEED=""
+        export OPENWEATHER_WIND_DEGREE=""
+
+        export OPENWEATHER_VISIBILITY=""
+
+        echo "Error: Weather API call failed."
+        exit 1
+
     fi
 }
 
-# interface
-if [[ "$1" == "--status" ]]; then
-    cat ${cache_weather_status}
-elif [[ "$1" == "--data" ]]; then
-    extract_weather
-elif [[ "$1" == "--temp" ]]; then
-    cat ${cache_weather_temperature}
-elif [[ "$1" == "--wpress" ]]; then
-    cat ${cache_weather_pressure}
-elif [[ "$1" == "--icon" ]]; then
-    cat ${cache_weather_icon}
-elif [[ "$1" == "--colour" ]]; then
-    cat ${cache_weather_colour}
-elif [[ "$1" == "--quote" ]]; then
-    cat ${cache_weather_quote}
-elif [[ "$1" == "--prompt" ]]; then
-  icon=$(cat ${cache_weather_icon})
-  temp=$(cat ${cache_weather_temperature})
-  echo "$icon $temp°C"
+export_var
+
+# argument parsing
+if [ $? -ne 0 ]; then
+    exit 1
+else
+    case "$1" in
+        "--status")
+            echo "$OPENWEATHER_ICON $OPENWEATHER_TEMPERATURE_FELT°C"
+            ;;
+        "--data")
+            echo "Country: $OPENWEATHER_COUNTRY"
+            echo "City: $OPENWEATHER_CITY"
+            echo "Description: $OPENWEATHER_DESCRIPTION"
+            echo "Temperature: $OPENWEATHER_TEMPERATURE°C"
+            echo "Felt Temperature: $OPENWEATHER_TEMPERATURE_FELT°C"
+            echo "Max Temperature: $OPENWEATHER_TEMPERATURE_MAX°C"
+            echo "Min Temperature: $OPENWEATHER_TEMPERATURE_MIN°C"
+            echo "Pressure: $OPENWEATHER_PRESSURE hPa"
+            echo "Humidity: $OPENWEATHER_HUMIDITY%"
+            echo "Wind Speed: $OPENWEATHER_WIND_SPEED m/s"
+            echo "Wind Degree: $OPENWEATHER_WIND_DEGREE°"
+            echo "Visibility: $OPENWEATHER_VISIBILITY m"
+            ;;
+        "--temp")
+            echo "$OPENWEATHER_TEMPERATURE°C"
+            ;;
+        "--temp-felt")
+            echo "$OPENWEATHER_TEMPERATURE_FELT°C"
+            ;;
+        "--temp-max")
+            echo "$OPENWEATHER_TEMPERATURE_MAX°C"
+            ;;
+        "--temp-min")
+            echo "$OPENWEATHER_TEMPERATURE_MIN°C"
+            ;;
+        "--pressure")
+            echo "$OPENWEATHER_PRESSURE hPa"
+            ;;
+        "--icon")
+            echo "$OPENWEATHER_ICON"
+            ;;
+        "--colour")
+            echo "$OPENWEATHER_COLOR"
+            ;;
+        "--country")
+            echo "$OPENWEATHER_COUNTRY"
+            ;;
+        "--city")
+            echo "$OPENWEATHER_CITY"
+            ;;
+        "--description")
+            echo "$OPENWEATHER_DESCRIPTION"
+            ;;
+        "--humidity")
+            echo "$OPENWEATHER_HUMIDITY%"
+            ;;
+        "--wind-speed")
+            echo "$OPENWEATHER_WIND_SPEED m/s"
+            ;;
+        "--wind-degree")
+            echo "$OPENWEATHER_WIND_DEGREE°"
+            ;;
+        "--visibility")
+            echo "$OPENWEATHER_VISIBILITY m"
+            ;;
+        "--help" | "")
+            show_help
+            ;;
+        *)
+            echo "Invalid option: $1" >&2
+            show_help
+            exit 1
+            ;;
+    esac
 fi

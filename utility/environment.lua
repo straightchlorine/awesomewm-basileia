@@ -57,7 +57,7 @@ env.scripts.widgets.net_rx = widget_scripts .. 'network-sample --rx'
 env.scripts.widgets.net_tx = widget_scripts .. 'network-sample --tx'
 
 --- Path to weather script.
-env.scripts.widgets.weather = widget_scripts .. 'weather --prompt'
+env.scripts.widgets.weather = widget_scripts .. "weather --status"
 
 --- Paths related to rofi.
 env.rofi = {}
