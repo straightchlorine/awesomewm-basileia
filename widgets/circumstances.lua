@@ -35,8 +35,8 @@ end
 --
 -- @treturn awful.widget.watch with information about current weather
 function circumstances.weather()
-	local weather = awful.widget.watch(env.scripts.widgets.weather, 180)
-	weather.forced_width = 50
+	local weather = awful.widget.watch(env.scripts.widgets.weather.script, 180)
+	weather.forced_width = 80
 	return weather
 end
 

@@ -77,16 +77,17 @@ env.rofi = {}
 --- Path to script launching rofi launcher.
 env.rofi.launcher = os.getenv("HOME") .. "/.config/rofi/launchers/type-4/launcher.sh"
 
-local rofi_applets = os.getenv("HOME") .. "/.config/rofi/applets/bin/"
+-- Path where the rofi applets are.
+env.rofi.applets = os.getenv("HOME") .. "/.config/rofi/applets/bin/"
 
 --- Path to rofi applet providing screenshot tool.
-env.rofi.screenshot_utility = rofi_applets .. "screenshot.sh"
+env.rofi.screenshot_utility = env.rofi.applets .. "screenshot.sh"
 
 --- Path to rofi applet providing powermenu.
-env.rofi.powermenu = rofi_applets .. "powermenu.sh"
+env.rofi.powermenu = env.rofi.applets .. "powermenu.sh"
 
 --- Path to rofi applet providing mpd controler.
-env.rofi.mpd_controller = rofi_applets .. "mpd.sh"
+env.rofi.mpd_controller = env.rofi.applets .. "mpd.sh"
 
 return env
 -- vim: filetype=lua:expandtab:shiftwidth=2:tabstop=4:softtabstop=2:textwidth=80
