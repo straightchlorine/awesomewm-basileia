@@ -12,7 +12,7 @@
 # Help message
 show_help() {
     cat << EOF
-Usage: $0 {--status|--data|--temp|--temp-felt|--temp-max|--temp-min|--pressure|--icon|--colour|--country|--city|--description|--humidity|--wind-speed|--wind-degree|--visibility|--help}
+    Usage: $0 {--status|--data|--temp|--temp-felt|--temp-max|--temp-min|--pressure|--icon|--colour|--country|--city|--description|--humidity|--wind-speed|--wind-degree|--visibility|--help} api_key (optional) city_id (optional)
 
 Options:
   --status       Display the weather icon and felt temperature.
@@ -37,6 +37,15 @@ Author: Piotr Krzysztof Lis - github.com/straightchlorine
 EOF
 }
 
+# possibility to set the credentials in the script from external output
+if [[ -z "$WEATHER_CREDENTIALS_KEY" || "$WEATHER_CREDENTIALS_KEY"="" ]]; then
+    export WEATHER_CREDENTIALS_KEY="$2"
+fi
+
+if [[ -z "$WEATHER_CREDENTIALS_CITY" || "$WEATHER_CREDENTIALS_CITY"="" ]]; then
+    export WEATHER_CREDENTIALS_CITY="$3"
+fi
+
 # Call the OpenWeather API
 #
 # Returns: JSON response from the OpenWeather API
@@ -51,7 +60,6 @@ api_call() {
 # Returns: 1 if failed, 0 if successful
 export_var() {
     json=$(api_call)
-
     if [ ! -z "$json" ]; then
 
         # cosmetics
@@ -165,6 +173,7 @@ export_var() {
     fi
 }
 
+# procuring the data and setting the variables
 export_var
 
 # argument parsing
