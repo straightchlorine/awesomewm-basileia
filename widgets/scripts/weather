@@ -38,11 +38,11 @@ EOF
 }
 
 # possibility to set the credentials in the script from external output
-if [[ -z "$WEATHER_CREDENTIALS_KEY" || "$WEATHER_CREDENTIALS_KEY"="" ]]; then
+if [[ -z "$WEATHER_CREDENTIALS_KEY" ]]; then
     export WEATHER_CREDENTIALS_KEY="$2"
 fi
 
-if [[ -z "$WEATHER_CREDENTIALS_CITY" || "$WEATHER_CREDENTIALS_CITY"="" ]]; then
+if [[ -z "$WEATHER_CREDENTIALS_CITY" ]]; then
     export WEATHER_CREDENTIALS_CITY="$3"
 fi
 
