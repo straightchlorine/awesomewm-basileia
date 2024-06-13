@@ -49,18 +49,9 @@ awful.keyboard.append_global_keybindings({
 
 -- rofi applets
 awful.keyboard.append_global_keybindings({
-	awful.key({ mod }, "m", function()
-		awful.spawn.with_shell(defaults.mpd_manager.mpd_rofi_popup)
-	end, { desciption = "mpd popup", group = "rofi applets" }),
 	awful.key({ mod, shift }, "s", function()
 		awful.spawn.with_shell(defaults.screenshot_utility)
 	end, { desciption = "screenshot utility", group = "rofi applets" }),
-	awful.key({ mod }, "v", function()
-		awful.spawn.with_shell(defaults.volume_control_utility)
-	end, { desciption = "volume control utility", group = "rofi applets" }),
-	awful.key({ mod, shift }, "p", function()
-		awful.spawn.with_shell(defaults.powermenu)
-	end, { desciption = "powermenu", group = "rofi applets" }),
 })
 
 -- multihead
