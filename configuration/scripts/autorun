@@ -8,17 +8,19 @@ setxkbmap pl
 
 # run unless there is already an instance
 run () {
-  if ! pgrep -f "$1" ;
-  then
-    "$@"&
-  fi
+    if ! pgrep -f "$1" ;
+    then
+        "$@"&
+    fi
 }
 
 # restart pipewire
 systemctl restart --user pipewire
 
-# compositor
-run picom
+# compositor, change it to your preffered choice
+# be vigilant however, because it might impact performance in case of high GPU
+# load, i.e. GPU accelerated software and video games
+# run picom
 
 # wallpaper
 $HOME/.fehbg
