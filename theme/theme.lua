@@ -1,15 +1,15 @@
-local beautiful = require('beautiful')
+local beautiful = require 'beautiful'
 local dpi = beautiful.xresources.apply_dpi
 
 local theme = {}
 
 --- TODO: make coloring external, managed via script
 
-theme.fg_normal     = '#f5c7a8'
-theme.bg_normal     = '#102e3e'
+theme.fg_normal = '#f5c7a8'
+theme.bg_normal = '#102e3e'
 
-theme.useless_gap   = dpi(12)
-theme.border_width  = dpi(1)
+theme.useless_gap = dpi(12)
+theme.border_width = dpi(1)
 
 --- taglist coloring
 theme.taglist_bg_focus = '#83a598'

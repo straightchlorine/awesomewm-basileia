@@ -2,10 +2,10 @@
 -- Widgets containing basic information such as time and date.
 ---
 
-local env = require("utility.environment")
+local env = require 'utility.environment'
 
-local awful = require("awful")
-local wibox = require("wibox")
+local awful = require 'awful'
+local wibox = require 'wibox'
 
 --- Module containing methods for various widgets providing information about
 --- things such as time, date, weather, etc.
@@ -23,9 +23,9 @@ local circumstances = {}
 --
 -- @treturn wibox.widget.textclock providing date and time
 function circumstances.time_and_date()
-	local time_and_date = wibox.widget.textclock(" %A, %d %B %T", 1)
-	time_and_date.forced_width = 200
-	return time_and_date
+  local time_and_date = wibox.widget.textclock(' %A, %d %B %T', 1)
+  time_and_date.forced_width = 200
+  return time_and_date
 end
 
 --- Get widget displaying current weather conditions.
@@ -35,16 +35,16 @@ end
 --
 -- @treturn awful.widget.watch with information about current weather
 function circumstances.weather()
-	local weather = awful.widget.watch(env.scripts.widgets.weather.script, 180)
-	weather.forced_width = 80
-	return weather
+  local weather = awful.widget.watch(env.scripts.widgets.weather.script, 180)
+  weather.forced_width = 80
+  return weather
 end
 
 --- Get widget displaying currently played by mpd song.
 --
 -- @treturn wibox.widget.textbox object containing currently played song
 function circumstances.mpd()
-	return require("widgets.mpd")
+  return require 'widgets.mpd'
 end
 
 --- Get widget displaying date, time and weather conditions.
@@ -57,11 +57,11 @@ end
 --
 -- @treturn wibox.widget object containing time and date along with weather
 function circumstances.status()
-	return {
-		circumstances.time_and_date(),
-		circumstances.weather(),
-		layout = wibox.layout.align.horizontal,
-	}
+  return {
+    circumstances.time_and_date(),
+    circumstances.weather(),
+    layout = wibox.layout.align.horizontal,
+  }
 end
 
 --- Get widget displaying currently played by mpd song.
@@ -71,15 +71,15 @@ end
 --
 -- @treturn wibox.widget object containing currently played song
 function circumstances.music()
-	return {
-		wibox.widget({
-			widget = wibox.widget.separator,
-			thickness = 0,
-			forced_width = 50,
-		}),
-		circumstances.mpd(),
-		layout = wibox.layout.align.horizontal,
-	}
+  return {
+    wibox.widget {
+      widget = wibox.widget.separator,
+      thickness = 0,
+      forced_width = 50,
+    },
+    circumstances.mpd(),
+    layout = wibox.layout.align.horizontal,
+  }
 end
 
 return circumstances

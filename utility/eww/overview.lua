@@ -2,7 +2,7 @@
 -- Parse state of screens and tags into JSON, which can be read by eww.
 ---
 
-local awful = require('awful')
+local awful = require 'awful'
 
 --- Count clients on a given tag.
 -- For each given tag function iterates through its clients
@@ -33,7 +33,7 @@ function overview.tags()
   local json = '{"display":[%s]}'
 
   local displays = ''
-  awful.screen.connect_for_each_screen(function (s)
+  awful.screen.connect_for_each_screen(function(s)
     local display = '{"id":%d,"workspaces":[%s]}'
     local workspaces = ''
 
@@ -41,12 +41,12 @@ function overview.tags()
     for _, tag in ipairs(s.tags) do
       local workspace = '{"id":%d,"windows":%d}'
       workspace = string.format(workspace, tag.index, count_clients(tag))
-      workspaces = workspaces..((workspaces == '') and '' or ',')..workspace
+      workspaces = workspaces .. ((workspaces == '') and '' or ',') .. workspace
     end
 
     -- append gathered data
     display = string.format(display, s.index, workspaces)
-    displays = displays..((displays == '') and '' or ',')..display
+    displays = displays .. ((displays == '') and '' or ',') .. display
   end)
 
   return string.format(json, displays)

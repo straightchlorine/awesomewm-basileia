@@ -2,14 +2,14 @@
 -- Initializes each module of the config.
 ---
 
-require('configuration.startup')
+require 'configuration.startup'
 
-require('configuration')
+require 'configuration'
 
-require('signals')
+require 'signals'
 
-require('theme')
+require 'theme'
 
-require('widgets')
+require 'widgets'
 
 -- vim: filetype=lua:expandtab:shiftwidth=2:tabstop=4:softtabstop=2:textwidth=80

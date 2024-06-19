@@ -1,7 +1,7 @@
 --- focus.lua
 -- Functions handling focus if necessary.
 
-local awful = require('awful')
+local awful = require 'awful'
 
 local focus = {}
 
