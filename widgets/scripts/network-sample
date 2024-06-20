@@ -1,9 +1,16 @@
 #!/bin/bash
 
+## network-sample
+# Samples the traffic via vnstat.
+##
+
+# TODO: Implement in lua for consistency, not a priority though
+
+# received traffic and transmitted traffic, in order
 if [ $1 == '--rx' ]; then
-  output=$(vnstat --traffic 2 | rg rx | awk '{print $2}{print $3}')
-  echo $output
+    output=$(vnstat --traffic 2 | rg rx | awk '{print $2}{print $3}')
+    echo $output
 elif [ $1 == '--tx' ]; then
-  output=$(vnstat --traffic 2 | rg tx | awk '{print $2}{print $3}')
-  echo $output
+    output=$(vnstat --traffic 2 | rg tx | awk '{print $2}{print $3}')
+    echo $output
 fi
