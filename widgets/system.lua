@@ -39,6 +39,8 @@ function system.ram()
 end
 
 --- Return awful.widget object displaying space occupied on the root partition.
+---
+-- TODO: Maybe add some more information as a popup window?
 --
 -- @return awful.widget
 function system.root()
@@ -52,14 +54,16 @@ function system.root()
   return root
 end
 
+local battery = require 'widgets.battery'
+
 --- Return awful.widget object displaying state of the battery.
 --
 -- Note that, for the sake of simplicity acpi is used instead of basic
 -- /sys/class/power_supply directory
 --
+-- TODO: Add expected battery life in a popup window?
+--
 -- @return awful.widget
-
-local battery = require 'widgets.battery'
 function system.battery()
   local bat = awful.widget.watch('acpi -b', 1, function(widget, stdout)
     for status, capacity, hours, minuts, seconds in stdout:gmatch 'Battery 0: (.+), (%d+)%%, (%d%d):(%d%d):(%d%d)' do
