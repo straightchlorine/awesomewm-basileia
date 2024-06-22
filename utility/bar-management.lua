@@ -3,7 +3,6 @@
 ---
 
 local bars = require 'widgets.bars'
-local env = require 'utility.environment'
 
 --- Switch bars between displays.
 --
@@ -14,11 +13,9 @@ local function switch(screen_a, screen_b)
   -- is to simply initialize them again
   screen_a.bar:remove()
   screen_b.bar:remove()
-  bars.main_bar(screen_b, env.modkey)
-  bars.side_bar(screen_a, env.modkey)
+  bars.main_bar(screen_b)
+  bars.side_bar(screen_a)
 end
-
-local awful = require 'awful'
 
 --- Switch bars in base state.
 --
@@ -78,9 +75,9 @@ end
 function management.reattach()
   for s in screen do
     if s.index == 1 then
-      bars.main_bar(s, env.modkey)
+      bars.main_bar(s)
     else
-      bars.side_bar(s, env.modkey)
+      bars.side_bar(s)
     end
   end
 end
