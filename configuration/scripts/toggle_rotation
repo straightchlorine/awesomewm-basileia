@@ -1,15 +1,22 @@
 #!/bin/bash
 
-# toggle_rotation
-# toggles the rotation on a given display
+## toggle_rotation
+# Toggles the rotation on a given display
+#
+# TODO: The same thing as with rotate_display script, literally horrific;
+# need to completely rewrite both files so it could be used for multihead
+# setups. Also rename those scripts, imagine not abiding by your own naming
+# conventions, embarassing.
+#
+##
 
 xrandr_query=$(xrandr --query | grep '1080x1920')
 display=$1
 eww_integration=$2
 
 if [[ $xrandr_query == '' ]]; then
-  # if no output then every screen is in normal rotation
-  $HOME/.config/awesome/configuration/scripts/rotate_display $display 'right' $eww_integration
+    # if no output then every screen is in normal rotation
+    $HOME/.config/awesome/configuration/scripts/rotate_display $display 'right' $eww_integration
 else
-  $HOME/.config/awesome/configuration/scripts/rotate_display $display 'normal' $eww_integration
+    $HOME/.config/awesome/configuration/scripts/rotate_display $display 'normal' $eww_integration
 fi
