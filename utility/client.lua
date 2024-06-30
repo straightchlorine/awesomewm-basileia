@@ -1,5 +1,5 @@
-local awful = require('awful')
-local gears = require('gears')
+local awful = require 'awful'
+local gears = require 'gears'
 
 local dpi = require('beautiful.xresources').apply_dpi
 
@@ -40,9 +40,9 @@ end
 --
 -- @param c client
 function client.center(c)
-    return gears.timer.delayed_call(function ()
-        awful.placement.centered(c, { honor_padding = true, honor_workarea = true })
-    end)
+  return gears.timer.delayed_call(function()
+    awful.placement.centered(c, { honor_padding = true, honor_workarea = true })
+  end)
 end
 
 return client

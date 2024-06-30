@@ -1,6 +1,6 @@
 --- startup/init.lua
--- Initializes startup module, calls both startup functions along with error
--- handling
+-- Initializes the window manager.
+-- (autorun along with error handling)
 ---
 
 require(... .. '.autorun')

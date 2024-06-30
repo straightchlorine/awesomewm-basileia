@@ -2,8 +2,8 @@
 -- Methods providing eww widgets integration to the environment.
 ---
 
-local files = require('utility.files')
-local env = require('utility.environment')
+local files = require 'utility.files'
+local env = require 'utility.environment'
 
 --- Generate JSON image of every defined tag.
 local function init_tag_cache()
@@ -38,8 +38,8 @@ end
 -- find required files.
 local function init_cache()
   -- checks if the $HOME/.cache/awesomewm directory exists
-  if not files.isdir(os.getenv('HOME') .. '.cache/awesomewm') then
-    os.execute('mkdir -p $HOME/.cache/awesomewm')
+  if not files.isdir(os.getenv 'HOME' .. '.cache/awesomewm') then
+    os.execute 'mkdir -p $HOME/.cache/awesomewm'
   end
   init_active_tag_cache()
   init_tag_cache()
@@ -67,7 +67,7 @@ local function log_active(tag)
 end
 
 --- Anonymous function used for logging.
-local full_log = function (tag)
+local full_log = function(tag)
   log_active(tag)
   log_overview()
 end
@@ -137,7 +137,7 @@ end
 --- Toggle between eww widgets and native awesomewm widgets.
 function integration.toggle()
   if env.eww.enable_integration then
-    os.execute('pkill -9 eww')
+    os.execute 'pkill -9 eww'
     require('utility.bar-management').reattach()
 
     env.eww.enable_integration = false

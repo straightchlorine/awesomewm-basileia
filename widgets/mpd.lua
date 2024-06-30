@@ -3,7 +3,7 @@
 -- [slightly adjusted https://awesomewm.org/recipes/mpc/]
 ---
 
-local mpc = require('utility.mpc')
+local mpc = require 'utility.mpc'
 
 --- Format song name by removing square brackets and trimming spaces.
 --
@@ -14,7 +14,7 @@ local mpc = require('utility.mpc')
 local function song_formatting(song_filename)
   local off_suffix = song_filename:gsub('.mp3', '')
   local off_brackets = off_suffix:gsub('%[.-]', '')
-  return off_brackets:match('^%s*(.-)%s*$')
+  return off_brackets:match '^%s*(.-)%s*$'
 end
 
 -- Create textbox widget
@@ -32,25 +32,24 @@ local function update_widget()
   -- local caption = tostring(file)
   local caption = song_formatting(tostring(file))
 
-    if state ~= 'play' then
-      mpd.text = ''
-    else
-      local play_text = '󰎉 ' .. caption
-      mpd.text = play_text
-    end
-
+  if state ~= 'play' then
+    mpd.text = ''
+  else
+    local play_text = '󰎉 ' .. caption
+    mpd.text = play_text
+  end
 end
 
 -- Connection with mpd
 local connection
-local timer = require('gears.timer')
+local timer = require 'gears.timer'
 
 --- Handle errors
 local function error_handler(err)
   mpd:set_text('Error: ' .. tostring(err))
   -- Try a reconnect soon-ish
   timer.start_new(10, function()
-    connection:send('ping')
+    connection:send 'ping'
   end)
 end
 
@@ -66,15 +65,22 @@ local host, port, pass = nil, nil, nil
 -- password (none)
 --
 -- If your configuration is different, you should change those values.
-connection = mpc.new(host, port, pass, error_handler,
-  'status', function(_, result)
+connection = mpc.new(
+  host,
+  port,
+  pass,
+  error_handler,
+  'status',
+  function(_, result)
     state = result.state
     pcall(update_widget)
   end,
-  'currentsong', function(_, result)
+  'currentsong',
+  function(_, result)
     file = result.file
     pcall(update_widget)
-  end)
+  end
+)
 
 return mpd
 -- vim: filetype=lua:expandtab:shiftwidth=2:tabstop=4:softtabstop=2:textwidth=80

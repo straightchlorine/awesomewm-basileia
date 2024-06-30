@@ -1,7 +1,10 @@
 --- focus.lua
--- Functions handling focus if necessary.
+-- Focus handling utility.
+--
+-- TODO: Needs some work, it honestly seems kinda useless.
+---
 
-local awful = require('awful')
+local awful = require 'awful'
 
 local focus = {}
 

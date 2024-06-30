@@ -2,11 +2,11 @@
 -- Contains variants of wibar system bars.
 ---
 
-local awful = require('awful')
-local wibox = require('wibox')
+local awful = require 'awful'
+local wibox = require 'wibox'
 
-local system = require('widgets.system')
-local circumstances = require('widgets.circumstances')
+local system = require 'widgets.system'
+local circumstances = require 'widgets.circumstances'
 
 --- Module defining main and side bars.
 --
@@ -16,12 +16,11 @@ local bars = {}
 --- Attach new main bar to the  screen.
 --
 -- It displays taglist, current time, date and weather, data received and
--- transmitted through network interface, how much of root partition is 
+-- transmitted through network interface, how much of root partition is
 -- occupied (in %), ram usage (in %) and cpu usage(in %).
 --
 -- @tparam screen s object to attach to
-function bars.main_bar (s)
-
+function bars.main_bar(s)
   -- attach the taglist to the screen
   require('widgets.taglist').attach(s)
 
@@ -35,28 +34,26 @@ function bars.main_bar (s)
       {
         s.taglist,
         circumstances.music(),
-        layout = wibox.layout.align.horizontal
+        layout = wibox.layout.align.horizontal,
       },
       {
         circumstances.status(),
-        layout = wibox.layout.align.horizontal
+        layout = wibox.layout.align.horizontal,
       },
       {
         system.status(),
-        layout = wibox.layout.align.horizontal
+        layout = wibox.layout.align.horizontal,
       },
       layout = wibox.layout.align.horizontal,
-    }
+    },
   }
-
 end
 
 --- Attach new side bar to the screen.
 -- It displays taglist, current time, date and weather.
 --
 -- @tparam screen s object to attach to
-function bars.side_bar (s)
-
+function bars.side_bar(s)
   -- attach the taglist to the screen
   require('widgets.taglist').attach(s)
 
@@ -67,7 +64,7 @@ function bars.side_bar (s)
     widget = {
       {
         circumstances.status(),
-        layout = wibox.layout.align.horizontal
+        layout = wibox.layout.align.horizontal,
       },
       wibox.widget {
         widget = wibox.widget.separator,
@@ -75,12 +72,11 @@ function bars.side_bar (s)
       },
       {
         s.taglist,
-        layout = wibox.layout.align.horizontal
+        layout = wibox.layout.align.horizontal,
       },
       layout = wibox.layout.align.horizontal,
-    }
+    },
   }
-
 end
 
 return bars

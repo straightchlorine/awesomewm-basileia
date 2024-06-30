@@ -2,7 +2,7 @@
 -- Provides an object, containing applications which are often used.
 ---
 
-local env = require('utility.environment')
+local env = require 'utility.environment'
 
 local defaults = {
   emulator = 'kitty',
@@ -19,8 +19,7 @@ local defaults = {
     volume_up = 'mpc volume +2',
     volume_down = 'mpc volume -2',
     toggle_mute = 'pactl set-sink-mute @DEFAULT_SINK@ toggle',
-    mpd_rofi_popup = env.rofi.mpd_controller
-  }
+  },
 }
 
 return defaults

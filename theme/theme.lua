@@ -1,19 +1,17 @@
-local beautiful = require('beautiful')
+--- theme.lua
+-- Colorscheme configuration, now managed via colorgen.
+-- [https://github.com/straightchlorine/colorgen]
+---
+
+local beautiful = require 'beautiful'
 local dpi = beautiful.xresources.apply_dpi
 
-local theme = {}
+-- local theme = {}
+local theme = dofile(os.getenv 'HOME' .. '/.config/awesome/theme/themes/mountain-peak-light.lua')
 
---- TODO: make coloring external, managed via script
-
-theme.fg_normal     = '#f5c7a8'
-theme.bg_normal     = '#102e3e'
-
-theme.useless_gap   = dpi(12)
-theme.border_width  = dpi(1)
-
---- taglist coloring
-theme.taglist_bg_focus = '#83a598'
-theme.taglist_bg_occupied = '#3e5f74'
+theme.useless_gap = dpi(12)
+theme.border_width = dpi(2)
 
 beautiful.init(theme)
+
 -- vim: filetype=lua:expandtab:shiftwidth=2:tabstop=4:softtabstop=2:textwidth=80

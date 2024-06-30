@@ -2,8 +2,8 @@
 -- Initializes widgets.
 ---
 
-local bars = require('widgets.bars')
-local eww = require('utility.eww.integration')
+local bars = require 'widgets.bars'
+local eww = require 'utility.eww.integration'
 
 --- Attach native awesomewm widgets.
 local function native()
@@ -16,7 +16,7 @@ local function native()
   end)
 end
 
-local env = require('utility.environment')
+local env = require 'utility.environment'
 
 --- Provide appropriate widgets.
 --

@@ -2,17 +2,17 @@
 -- Contains all the key mappings.
 ---
 
-local awful = require('awful')
+local awful = require 'awful'
 
 --- keybindings popup
-local hotkeys_popup = require('awful.hotkeys_popup')
-require('awful.hotkeys_popup.keys')
+local hotkeys_popup = require 'awful.hotkeys_popup'
+require 'awful.hotkeys_popup.keys'
 
 --- autofocus
-require('awful.autofocus')
+require 'awful.autofocus'
 
-local defaults = require('configuration.default-applications')
-local env = require('utility.environment')
+local defaults = require 'configuration.default-applications'
+local env = require 'utility.environment'
 
 -- aliases
 local mod = env.modkey
@@ -23,16 +23,10 @@ local alt = 'Mod1'
 local tab = 'Tab'
 
 --- general keybindings
-awful.keyboard.append_global_keybindings({
-  awful.key({ mod, ctrl, shift }, 'r',
-    awesome.restart,
-  { description = 'restart', group = 'general' }),
-  awful.key({ mod, ctrl, shift }, 'q',
-    awesome.quit,
-  { description = 'quit', group = 'general' }),
-  awful.key({ mod }, 'F1',
-    hotkeys_popup.show_help,
-  { description = 'this message', group = 'general' }),
+awful.keyboard.append_global_keybindings {
+  awful.key({ mod, ctrl, shift }, 'r', awesome.restart, { description = 'restart', group = 'general' }),
+  awful.key({ mod, ctrl, shift }, 'q', awesome.quit, { description = 'quit', group = 'general' }),
+  awful.key({ mod }, 'F1', hotkeys_popup.show_help, { description = 'this message', group = 'general' }),
   awful.key({ mod }, enter, function()
     awful.spawn(defaults.emulator)
   end, { descrpion = 'terminal', group = 'key' }),
@@ -50,80 +44,71 @@ awful.keyboard.append_global_keybindings({
   end, { desciption = 'switch bars', group = 'key' }),
   awful.key({ mod }, 'e', function()
     require('utility.eww.integration').toggle()
-  end, { desciption = 'toggle widget setup (eww/native)', group = 'key' })
-})
+  end, { desciption = 'toggle widget setup (eww/native)', group = 'key' }),
+}
 
 -- rofi applets
-awful.keyboard.append_global_keybindings({
-  awful.key({ mod }, 'm', function()
-    awful.spawn.with_shell(defaults.mpd_manager.mpd_rofi_popup)
-  end, { desciption = 'mpd popup', group = 'rofi applets' }),
+awful.keyboard.append_global_keybindings {
   awful.key({ mod, shift }, 's', function()
     awful.spawn.with_shell(defaults.screenshot_utility)
   end, { desciption = 'screenshot utility', group = 'rofi applets' }),
-  awful.key({ mod }, 'v', function()
-    awful.spawn.with_shell(defaults.volume_control_utility)
-  end, { desciption = 'volume control utility', group = 'rofi applets' }),
-  awful.key({ mod, shift }, 'p', function()
-    awful.spawn.with_shell(defaults.powermenu)
-  end, { desciption = 'powermenu', group = 'rofi applets' }),
-})
+}
 
 -- multihead
-awful.keyboard.append_global_keybindings({
+awful.keyboard.append_global_keybindings {
   awful.key({ mod, alt }, 'l', function()
     awful.screen.focus_relative(1)
   end, { description = 'focus the next screen', group = 'display' }),
   awful.key({ mod, alt }, 'h', function()
     awful.screen.focus_relative(-1)
-  end, { description = 'focus the previous screen', group = 'display' })
-})
+  end, { description = 'focus the previous screen', group = 'display' }),
+}
 
 -- focus by direction
-awful.keyboard.append_global_keybindings({
+awful.keyboard.append_global_keybindings {
   -- vim
   awful.key({ mod }, 'k', function()
-    awful.client.focus.bydirection('up')
+    awful.client.focus.bydirection 'up'
   end, { description = 'focus up', group = 'focus' }),
   awful.key({ mod }, 'j', function()
-    awful.client.focus.bydirection('down')
+    awful.client.focus.bydirection 'down'
   end, { description = 'focus down', group = 'focus' }),
   awful.key({ mod }, 'h', function()
-    awful.client.focus.bydirection('left')
+    awful.client.focus.bydirection 'left'
   end, { description = 'focus left', group = 'focus' }),
   awful.key({ mod }, 'l', function()
-    awful.client.focus.bydirection('right')
+    awful.client.focus.bydirection 'right'
   end, { description = 'focus right', group = 'focus' }),
 
   -- arrows
   awful.key({ mod }, 'Up', function()
-    awful.client.focus.bydirection('up')
+    awful.client.focus.bydirection 'up'
   end, { description = 'focus up', group = 'focus' }),
   awful.key({ mod }, 'Down', function()
-    awful.client.focus.bydirection('down')
+    awful.client.focus.bydirection 'down'
   end, { description = 'focus down', group = 'focus' }),
   awful.key({ mod }, 'Left', function()
-    awful.client.focus.bydirection('left')
+    awful.client.focus.bydirection 'left'
   end, { description = 'focus left', group = 'focus' }),
   awful.key({ mod }, 'Right', function()
-    awful.client.focus.bydirection('right')
+    awful.client.focus.bydirection 'right'
   end, { description = 'focus right', group = 'focus' }),
-})
+}
 
 -- other focus-related binds
-awful.keyboard.append_global_keybindings({
+awful.keyboard.append_global_keybindings {
   awful.key({ mod, ctrl }, 'n', function()
     local c = awful.client.restore()
     if c then
       c:activate { raise = true, context = 'key.unminimize' }
     end
   end, { description = 'unminimize', group = 'client' }),
-})
+}
 
 -- resizing
-local utility = require('utility.client')
+local utility = require 'utility.client'
 
-awful.keyboard.append_global_keybindings({
+awful.keyboard.append_global_keybindings {
   -- vim
   awful.key({ mod, ctrl }, 'k', function(c)
     utility.resize(client.focus, 'up')
@@ -151,25 +136,25 @@ awful.keyboard.append_global_keybindings({
   awful.key({ mod, ctrl }, 'Right', function(c)
     utility.resize(client.focus, 'right')
   end, { description = 'resize right', group = 'size' }),
-})
+}
 
 -- mouse
 client.connect_signal('request::default_mousebindings', function()
-  awful.mouse.append_client_mousebindings({
+  awful.mouse.append_client_mousebindings {
     awful.button({}, 1, function(c)
-      c:activate({ context = 'mouse_click' })
+      c:activate { context = 'mouse_click' }
     end),
     awful.button({ mod }, 1, function(c)
-      c:activate({ context = 'mouse_click', action = 'mouse_move' })
+      c:activate { context = 'mouse_click', action = 'mouse_move' }
     end),
     awful.button({ mod }, 3, function(c)
-      c:activate({ context = 'mouse_click', action = 'mouse_resize' })
+      c:activate { context = 'mouse_click', action = 'mouse_resize' }
     end),
-  })
+  }
 end)
 
 -- hardware
-awful.keyboard.append_global_keybindings({
+awful.keyboard.append_global_keybindings {
   awful.key({}, 'XF86MonBrightnessUp', function()
     awful.spawn('brightnessctl set 5%+ -q', false)
   end, { description = 'brightness up', group = 'hardware' }),
@@ -195,10 +180,10 @@ awful.keyboard.append_global_keybindings({
   awful.key({}, 'XF86AudioNext', function()
     awful.spawn.with_shell(defaults.mpd_manager.next)
   end, { description = 'next', group = 'music' }),
-})
+}
 
 -- layout
-awful.keyboard.append_global_keybindings({
+awful.keyboard.append_global_keybindings {
   awful.key({ mod }, tab, function()
     local layout_function = awful.layout.get(mouse.screen)
     local layout_name = awful.layout.getname(layout_function)
@@ -215,13 +200,13 @@ awful.keyboard.append_global_keybindings({
   awful.key({ mod, shift }, 'space', function()
     awful.layout.inc(-1)
   end, { description = 'select previous', group = 'layout' }),
-})
+}
 
 -- tag
-local focus = require('utility.focus')
+local focus = require 'utility.focus'
 
-awful.keyboard.append_global_keybindings({
-  awful.key({
+awful.keyboard.append_global_keybindings {
+  awful.key {
     modifiers = { mod },
     keygroup = 'numrow',
     description = 'toggle last tag',
@@ -240,8 +225,8 @@ awful.keyboard.append_global_keybindings({
         end
       end
     end,
-  }),
-  awful.key({
+  },
+  awful.key {
     modifiers = { mod, shift },
     keygroup = 'numrow',
     description = 'move client to tag',
@@ -254,12 +239,12 @@ awful.keyboard.append_global_keybindings({
         end
       end
     end,
-  }),
-})
+  },
+}
 
 -- client
 client.connect_signal('request::default_keybindings', function()
-  awful.keyboard.append_client_keybindings({
+  awful.keyboard.append_client_keybindings {
     -- swapping (vim)
     awful.key({ mod, shift }, 'k', function(c)
       awful.client.swap.bydirection('up', c, nil)
@@ -319,6 +304,6 @@ client.connect_signal('request::default_keybindings', function()
     awful.key({ mod }, 'c', function(c)
       awful.placement.centered(c, { honor_workarea = true, honor_padding = true })
     end, { description = 'center window', group = 'client' }),
-  })
+  }
 end)
 -- vim: filetype=lua:expandtab:shiftwidth=2:tabstop=4:softtabstop=2:textwidth=80
