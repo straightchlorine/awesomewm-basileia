@@ -24,7 +24,7 @@ local circumstances = {}
 -- @treturn wibox.widget.textclock providing date and time
 function circumstances.time_and_date()
   local time_and_date = wibox.widget.textclock(' %A, %d %B %T', 1)
-  time_and_date.forced_width = 200
+  time_and_date.forced_width = 220
   return time_and_date
 end
 
